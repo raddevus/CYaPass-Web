@@ -247,8 +247,9 @@ function drawLine(p, p2, color, lineWidth, isUsingOffset){
 	ctx.globalAlpha = 1;
 	ctx.lineWidth = lineWidth || 1;
 	if (isUsingOffset != undefined && isUsingOffset){
-		ctx.moveTo(p.x + offset, p.y+offset);
-		ctx.lineTo(p2.x + offset, p2.y+offset);
+		ctx.moveTo(p.x + offset/2, p.y+offset/2);
+		ctx.lineTo(p2.x + offset/2, p2.y+offset/2);
+		console.log("using offset...");
 	}
 	else{
 		ctx.moveTo(p.x,p.y);
