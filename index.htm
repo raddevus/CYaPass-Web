@@ -2,27 +2,41 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>Robots</title>
+<title>C'YaPass : Never type a password again</title>
 <link rel="stylesheet" href="css/main.css" />
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
 <script   src="https://code.jquery.com/jquery-2.2.3.min.js"   integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="   crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
 <body>
-<select id="SiteListBox" size="10"></select>
+
 <div id="SiteListButtons">
-<button type="button" class="btn btn-default" onclick="addButtonClick()">Add</button>
-<button type="button" class="btn btn-default" onclick="deleteButtonClick()">Delete</button>
+
 </div>
-<div id="gridBlock">
-	<canvas id="mainGrid">You're browser does not support HTML5.</canvas>
-	<div>
-		<button type="button" class="btn btn-default" onclick="clearButtonClick()">Clear</button>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-4" style="background-color:lavender;">
+			<select id="SiteListBox" size="10"></select>
+			<button type="button" class="btn btn-default" onclick="addButtonClick()">Add</button>
+			<button type="button" class="btn btn-default" onclick="deleteButtonClick()">Delete</button>
+		</div>
+		<div class="col-sm-6" style="background-color:lightgreen;">
+		<canvas id="mainGrid">You're browser does not support HTML5.</canvas>
+			<div>
+				<button type="button" class="btn btn-default" onclick="clearButtonClick()">Clear</button>
+			</div>
+			<div class="form-group">
+				<input class="form-control" id="passwordText" placeholder="password">
+			</div>
+		</div>
 	</div>
-	<div class="form-group">
-    <input class="form-control" id="passwordText" placeholder="password">
-  </div>
+	<div class="row">
+		<div class="col-sm-4">
+			
+		</div>
+	</div>
 </div>
+
 <script src="js/sha256.js"></script>
 <script src="js/cyapass.js"></script>
 
