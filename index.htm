@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Robots</title>
+<link rel="stylesheet" href="css/main.css" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+<script   src="https://code.jquery.com/jquery-2.2.3.min.js"   integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="   crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+</head>
+<body>
+<select id="SiteListBox" size="10"></select>
+<div id="SiteListButtons">
+<button type="button" class="btn btn-default" onclick="addButtonClick()">Add</button>
+<button type="button" class="btn btn-default" onclick="deleteButtonClick()">Delete</button>
+</div>
+<div id="gridBlock">
+	<canvas id="mainGrid">You're browser does not support HTML5.</canvas>
+	<div>
+		<button type="button" class="btn btn-default" onclick="clearButtonClick()">Clear</button>
+	</div>
+	<div class="form-group">
+    <input class="form-control" id="passwordText" placeholder="password">
+  </div>
+</div>
+<script src="js/sha256.js"></script>
+<script src="js/cyapass.js"></script>
+
+<div class="startLocation">
+<div class="checkbox">
+  <label><input id="masterRobot" type="checkbox" value="">Create Master Robot</label>
+</div>
+<!-- blogtop --><!--
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+<ins class="adsbygoogle"
+     style="display:inline-block;width:320px;height:100px"
+     data-ad-client="ca-pub-6286879032545261"
+     data-ad-slot="6030258726"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+</div>
+
+
+<div class="modal fade" id="AddSiteKeyModal" tabindex="-1" role="dialog" aria-labelledby="AddSiteKeyLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="AddSiteKeyLabel">Add New Site/Key</h4>
+      </div>
+      <div class="modal-body">
+        <label for="SiteKeyItem">Site/Key</label> <span id="siteKeyErrMsg"></span>
+		<input class="form-control" id="SiteKeyItem" autofocus placeholder="Site/Key">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default btn-submit" data-dismiss="modal">Cancel</button>
+        <button id="OKSiteKeyButton" type="button" class="btn btn-primary">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="DeleteSiteKeyModal" tabindex="-1" role="dialog" aria-labelledby="DeleteSiteKeyLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="DeleteSiteKeyLabel">Confirm Deletion of Site/Key</h4>
+      </div>
+      <div class="modal-body">
+        <span id="siteKeyDelMsg"></span><span id="siteKeyDelValue"></span>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default btn-submit" data-dismiss="modal">Cancel</button>
+        <button id="OKDeleteButton" type="button" class="btn btn-primary">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</body>
+</html>
