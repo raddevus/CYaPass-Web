@@ -147,6 +147,9 @@ function generatePassword(){
 	}
 	ComputeHashBytes();
 	addUppercaseLetter();
+	if ($("#addSpecialCharsCheckBox").attr('checked') || $("#addSpecialCharsCheckBox").prop('checked')){
+		addSpecialChars();
+	}
 	
 }
 
@@ -212,6 +215,29 @@ function addUppercaseLetter(){
 	console.log("adduppercaseletter...");
 }
 
+function addSpecialChars(){
+	console.log("addSpecialChars...");
+	var specialChars = $("#specialChars").val();
+	if (specialChars == null || specialChars == ""){ return;}
+	var target = $("#passwordText").val();
+	if (target === null || target == ""){ return;}
+
+	if ($("#addSpecialCharsCheckBox").attr('checked') || $("#addSpecialCharsCheckBox").prop('checked')){
+		console.log("special chars...");
+		var charOffset = 2;
+        var pwd = target.substring(0, charOffset);
+		console.log("target : " + target);
+		pwd += specialChars;
+		console.log("1 pwd : " + pwd);
+		pwd = pwd + target.substring(2, target.length - charOffset);
+		console.log("2 pwd : " + pwd);
+		$("#passwordText").val(pwd);
+	}
+	else{
+		generatePassword();
+	}
+}
+
 function handleEnterKey(e){
 	if(e.which == 13) {
 		addSiteKey();
@@ -262,6 +288,8 @@ function initApp(){
 	$('#SiteListBox').on('change', generatePassword);
 
 	$('#addUppercaseCheckBox').on('change', addUppercaseLetter);
+	$('#addSpecialCharsCheckBox').on('change', addSpecialChars);
+	$("#specialChars").on('input', addSpecialChars);
 	$("#passwordText").removeClass("noselect");
 
 	theCanvas.addEventListener("mousedown", mouseDownHandler);
