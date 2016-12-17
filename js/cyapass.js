@@ -180,6 +180,31 @@ function addSiteKey(){
 	}
 }
 
+function addUppercaseLetter(){
+	var target = $("#passwordText").val();
+	
+	if (target == null || target == ""){ return;}
+	console.log("target : " + target);
+	if ($("#addUppercaseCheckBox").attr('checked') || $("#addUppercaseCheckBox").prop('checked')){
+		console.log("checked");
+		
+		for (var i =0; i < target.length;i++){
+			//console.log("target.length : " + target.length);
+			if (isNaN(target[i])){
+				console.log(target[i]);
+				target[i] = target[i].toUpperCase();
+				console.log(target[i].toUpperCase());
+				$("#passwordText").val(target);
+				return;
+			}
+		}
+	}
+	else{
+		generatePassword();
+	}
+	console.log("adduppercaseletter...");
+}
+
 function handleEnterKey(e){
 	if(e.which == 13) {
 		addSiteKey();
@@ -227,17 +252,16 @@ function initApp(){
 	$('#AddSiteKeyModal').on('shown.bs.modal', function () {
 		$("#SiteKeyItem").focus();
 	});
-	$('#SiteListBox').on('change', function() {
-		generatePassword();
-	});
+	$('#SiteListBox').on('change', generatePassword);
+
+	$('#addUppercaseCheckBox').on('change', addUppercaseLetter);
+	$("#passwordText").removeClass("noselect");
 
 	theCanvas.addEventListener("mousedown", mouseDownHandler);
 	drawBackground();
 	generateAllPosts();
 	drawGridLines();
 	drawPosts();
-	
-	
 }
 
 function drawLine(p, p2, color, lineWidth, isUsingOffset){

@@ -13,12 +13,15 @@
 <div id="SiteListButtons">
 
 </div>
-<div class="container-fluid">
+<div class="container-fluid noselect">
 	<div class="row">
 		<div class="col-sm-4" style="background-color:lavender;">
 			<select id="SiteListBox" size="10"></select>
 			<button type="button" class="btn btn-default" onclick="addButtonClick()">Add</button>
 			<button type="button" class="btn btn-default" onclick="deleteButtonClick()">Delete</button>
+			<div>
+			<label><input id="addUppercaseCheckBox" type="checkbox" value="">Add UpperCase</label>
+			</div>
 		</div>
 		<div class="col-sm-6" style="background-color:lightgreen;">
 		<canvas id="mainGrid">You're browser does not support HTML5.</canvas>
