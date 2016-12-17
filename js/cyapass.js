@@ -146,6 +146,8 @@ function generatePassword(){
 		return;
 	}
 	ComputeHashBytes();
+	addUppercaseLetter();
+	
 }
 
 function ComputeHashBytes(){
@@ -188,19 +190,24 @@ function addUppercaseLetter(){
 	if ($("#addUppercaseCheckBox").attr('checked') || $("#addUppercaseCheckBox").prop('checked')){
 		console.log("checked");
 		
+		var foundChar = "";
 		for (var i =0; i < target.length;i++){
 			//console.log("target.length : " + target.length);
 			if (isNaN(target[i])){
 				console.log(target[i]);
+				foundChar = target[i];
 				target[i] = target[i].toUpperCase();
 				console.log(target[i].toUpperCase());
-				$("#passwordText").val(target);
-				return;
+				i = target.length;
 			}
 		}
+		if (foundChar != ""){
+			$("#passwordText").val(target.replace(foundChar, foundChar.toUpperCase()));
+		}
+		
 	}
 	else{
-		generatePassword();
+		$("#passwordText").val(target.toLowerCase());
 	}
 	console.log("adduppercaseletter...");
 }
