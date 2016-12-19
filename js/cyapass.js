@@ -105,7 +105,7 @@ function mouseDownHandler(event){
 	drawHighlight();
 	drawUserShape();
 	generatePassword();
-	console.log("mouseDown");
+	//console.log("mouseDown");
 }
 
 function selectNewPoint(event){
@@ -123,7 +123,7 @@ function selectNewPoint(event){
 
 function drawHighlight(){
 	
-	// there are not points so return without attempting highlight
+	// there are no points so return without attempting highlight
 	if (us.allPoints.length < 1){return;}
 	
 	drawCircle(new Point({x:us.allPoints[0].x, y:us.allPoints[0].y}), "rgba(0, 0, 0, 0)", "orange", 10, 2);
@@ -136,6 +136,8 @@ function drawUserShape(){
 	}
 }
 
+var pwd = "";
+
 function generatePassword(){
 	selectedItem = $("#SiteListBox").val();
 	if (selectedItem == null || selectedItem == ""){
@@ -146,11 +148,13 @@ function generatePassword(){
 		return;
 	}
 	ComputeHashBytes();
+	console.log("ComputeHashBytes() : " + pwd);
 	addUppercaseLetter();
+	console.log ("pwd 1: " + pwd);
 	if ($("#addSpecialCharsCheckBox").attr('checked') || $("#addSpecialCharsCheckBox").prop('checked')){
 		addSpecialChars();
 	}
-	
+	$("#passwordText").val(pwd);
 }
 
 function ComputeHashBytes(){
@@ -158,7 +162,7 @@ function ComputeHashBytes(){
 	console.log("selectedItem : " + selectedItem);
 	var hashValue = sha256(us.PointValue+selectedItem);
 	console.log(hashValue);
-	$("#passwordText").val(hashValue);
+	pwd = hashValue;
 }
 
 function addButtonClick(){
@@ -193,10 +197,9 @@ function addSiteKey(item, isInit){
 }
 
 function addUppercaseLetter(){
-	var target = $("#passwordText").val();
-	
+	var target = pwd;
+
 	if (target == null || target == ""){ return;}
-	console.log("target : " + target);
 	if ($("#addUppercaseCheckBox").attr('checked') || $("#addUppercaseCheckBox").prop('checked')){
 		console.log("checked");
 		
@@ -212,12 +215,12 @@ function addUppercaseLetter(){
 			}
 		}
 		if (foundChar != ""){
-			$("#passwordText").val(target.replace(foundChar, foundChar.toUpperCase()));
+			pwd = target.replace(foundChar, foundChar.toUpperCase());
 		}
 		
 	}
 	else{
-		$("#passwordText").val(target.toLowerCase());
+		pwd = target.toLowerCase();
 	}
 	console.log("adduppercaseletter...");
 }
@@ -226,19 +229,19 @@ function addSpecialChars(){
 	console.log("addSpecialChars...");
 	var specialChars = $("#specialChars").val();
 	if (specialChars == null || specialChars == ""){ return;}
-	var target = $("#passwordText").val();
+	var target = pwd;
 	if (target === null || target == ""){ return;}
 
 	if ($("#addSpecialCharsCheckBox").attr('checked') || $("#addSpecialCharsCheckBox").prop('checked')){
 		console.log("special chars...");
 		var charOffset = 2;
-        var pwd = target.substring(0, charOffset);
+        var localPwd = target.substring(0, charOffset);
 		console.log("target : " + target);
-		pwd += specialChars;
-		console.log("1 pwd : " + pwd);
-		pwd = pwd + target.substring(2, target.length - charOffset);
-		console.log("2 pwd : " + pwd);
-		$("#passwordText").val(pwd);
+		localPwd += specialChars;
+		console.log("1 localPwd : " + localPwd);
+		localPwd = localPwd + target.substring(2, target.length - charOffset);
+		console.log("2 localPwd : " + localPwd);
+		pwd = localPwd;
 	}
 	else{
 		generatePassword();
@@ -337,9 +340,12 @@ function initApp(){
 	});
 	$('#SiteListBox').on('change', generatePassword);
 
-	$('#addUppercaseCheckBox').on('change', addUppercaseLetter);
-	$('#addSpecialCharsCheckBox').on('change', addSpecialChars);
-	$("#specialChars").on('input', addSpecialChars);
+	//$('#addUppercaseCheckBox').on('change', addUppercaseLetter);
+	$('#addUppercaseCheckBox').on('change', generatePassword);
+	//$('#addSpecialCharsCheckBox').on('change', addSpecialChars);
+	$('#addSpecialCharsCheckBox').on('change', generatePassword);
+	//$("#specialChars").on('input', addSpecialChars);
+	$("#specialChars").on('input', generatePassword);
 	$("#passwordText").removeClass("noselect");
 
 	theCanvas.addEventListener("mousedown", mouseDownHandler);
