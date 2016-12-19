@@ -164,21 +164,28 @@ function ComputeHashBytes(){
 function addButtonClick(){
 	$("#siteKeyErrMsg").text("");
 	$("#AddSiteKeyModal").modal('toggle');
-	
-	//$("#SiteKeyItem").focus();
 }
-
-function addSiteKey(){
+var allSiteKeys = [];
+function addSiteKey(item, isInit){
 	
 	//1. get currently selected item in the list 
 	//$("#SiteListBox").val("test").change();
 	$("#siteKeyErrMsg").text("");
-	var item = $("#SiteKeyItem").val()
+	if (item === undefined || item === null){
+		var item = $("#SiteKeyItem").val();
+		console.log("undefined ITEM");
+	}
+	
 	if (item != ""){
 		$('#SiteListBox').append( new Option(item,item) );
 		$('#AddSiteKeyModal').modal('hide');
 		$("#SiteKeyItem").val("");
 		$('#SiteListBox').val(item).change();
+		
+		if (!isInit){
+			allSiteKeys.push(item);
+			saveToLocalStorage(allSiteKeys);
+		}
 	}
 	else{
 		$("#siteKeyErrMsg").text("Please type a valid site/key.");
@@ -273,6 +280,38 @@ function deleteSiteKey(){
 // *******************************
 // *******************************
 
+//############################### localStorage methods ##########################
+//###############################################################################
+function removeAllKeysFromLocalStorage()
+{
+	localStorage.removeItem('siteKeys'); 
+	console.log("success remove!");
+}
+//  $scope.allFeeds = JSON.parse(localStorage["siteKeys"]);
+
+function saveToLocalStorage()
+{
+  // Put the object into storage
+
+  localStorage.setItem('siteKeys', JSON.stringify(allSiteKeys));
+  console.log(JSON.stringify(allSiteKeys));
+  console.log("wrote siteKeys to localStorage");
+  
+}
+
+function initSiteKeys(){
+	if (localStorage.getItem("siteKeys") !== null) {
+		allSiteKeys = JSON.parse(localStorage["siteKeys"]);
+	
+		console.log(allSiteKeys);
+		for (var j = 0; j < allSiteKeys.length;j++)
+		{
+			addSiteKey(allSiteKeys[j],true);
+			console.log(allSiteKeys[j]);
+		}
+	}
+}
+
 function initApp(){
 	theCanvas = document.getElementById("mainGrid");
 	ctx = theCanvas.getContext("2d");
@@ -297,6 +336,8 @@ function initApp(){
 	generateAllPosts();
 	drawGridLines();
 	drawPosts();
+	initSiteKeys();
+	//removeAllKeysFromLocalStorage();
 }
 
 function drawLine(p, p2, color, lineWidth, isUsingOffset){
