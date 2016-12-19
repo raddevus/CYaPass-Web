@@ -273,6 +273,7 @@ function clearButtonClick(){
 function deleteSiteKey(){
 	var removeItem = "#SiteListBox option[value='" + selectedItem + "']";
 	$(removeItem).remove();
+	deleteItemFromLocalStorage(selectedItem);
 	$("#DeleteSiteKeyModal").modal('hide');
 	$("#passwordText").val("");
 }
@@ -297,6 +298,16 @@ function saveToLocalStorage()
   console.log(JSON.stringify(allSiteKeys));
   console.log("wrote siteKeys to localStorage");
   
+}
+
+function deleteItemFromLocalStorage(item){
+	console.log("Removing : " + item);
+	var idx = allSiteKeys.lastIndexOf(item);
+	console.log("idx : " + idx);
+	if (idx > -1){
+		allSiteKeys.splice(idx,1);
+		saveToLocalStorage();
+	}
 }
 
 function initSiteKeys(){
