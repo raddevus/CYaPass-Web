@@ -5,6 +5,7 @@
 #SiteListButtons{margin-left:20px;}
 #gridBlock{position:absolute;top:20px;left:300px;}
 #siteKeyDelValue, #siteKeyErrMsg{color:red;}
+#noshow{visibility:hidden;}
 .noselect {
   -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Chrome/Safari/Opera */

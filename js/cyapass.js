@@ -154,7 +154,17 @@ function generatePassword(){
 	if ($("#addSpecialCharsCheckBox").attr('checked') || $("#addSpecialCharsCheckBox").prop('checked')){
 		addSpecialChars();
 	}
+	if ($("#maxLengthCheckBox").attr('checked') || $("#maxLengthCheckBox").prop('checked')){
+		setMaxLength();
+	}
+	
+	
 	$("#passwordText").val(pwd);
+}
+
+function setMaxLength(){
+	var maxLength = $("#maxLength").val();
+	pwd = pwd.substr(0, maxLength);
 }
 
 function ComputeHashBytes(){
@@ -169,7 +179,9 @@ function addButtonClick(){
 	$("#siteKeyErrMsg").text("");
 	$("#AddSiteKeyModal").modal('toggle');
 }
+
 var allSiteKeys = [];
+
 function addSiteKey(item, isInit){
 	
 	//1. get currently selected item in the list 
@@ -340,12 +352,13 @@ function initApp(){
 	});
 	$('#SiteListBox').on('change', generatePassword);
 
-	//$('#addUppercaseCheckBox').on('change', addUppercaseLetter);
 	$('#addUppercaseCheckBox').on('change', generatePassword);
-	//$('#addSpecialCharsCheckBox').on('change', addSpecialChars);
 	$('#addSpecialCharsCheckBox').on('change', generatePassword);
-	//$("#specialChars").on('input', addSpecialChars);
 	$("#specialChars").on('input', generatePassword);
+	//$("#maxLength").on('change', generatePassword);
+	$("#maxLength").on('input', generatePassword);
+	$("#maxLengthCheckBox").on('change', generatePassword);
+	
 	$("#passwordText").removeClass("noselect");
 
 	theCanvas.addEventListener("mousedown", mouseDownHandler);
