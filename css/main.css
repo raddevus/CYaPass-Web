@@ -3,9 +3,9 @@
 /*#SiteListBox{margin-left:20px;width:175px;margin-top:20px;}*/
 #SiteListBox{width:100%;}
 #SiteListButtons{margin-left:20px;}
-#gridBlock{position:absolute;top:20px;left:300px;}
 #siteKeyDelValue, #siteKeyErrMsg{color:red;}
 #noshow{visibility:hidden;}
+.cyaHeader{font-size:large;color:blue; margin-left:10px;}
 .noselect {
   -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Chrome/Safari/Opera */
