@@ -301,7 +301,7 @@ function saveToLocalStorage()
 {
   // Put the object into storage
 
-  localStorage.setItem('siteKeys', JSON.stringify(allSiteKeys));
+  localStorage.setItem('siteKeys', btoa(JSON.stringify(allSiteKeys)));
   console.log(JSON.stringify(allSiteKeys));
   console.log("wrote siteKeys to localStorage");
   
@@ -321,7 +321,7 @@ function deleteItemFromLocalStorage(item){
 
 function initSiteKeys(){
 	if (localStorage.getItem("siteKeys") !== null) {
-		allSiteKeys = JSON.parse(localStorage["siteKeys"]);
+		allSiteKeys = JSON.parse(atob(localStorage["siteKeys"]));
 	
 		console.log(allSiteKeys);
 		for (var j = 0; j < allSiteKeys.length;j++)
