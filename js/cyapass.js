@@ -194,7 +194,7 @@ function addSiteKey(item, isInit){
 		$('#SiteListBox').val(item).change();
 		
 		if (!isInit){
-			allSiteKeys.push(item);
+			allSiteKeys.push(btoa(encodeURIComponent(item)));
 			saveToLocalStorage(allSiteKeys);
 		}
 	}
@@ -301,7 +301,7 @@ function saveToLocalStorage()
 {
   // Put the object into storage
 
-  localStorage.setItem('siteKeys', btoa(JSON.stringify(allSiteKeys)));
+  localStorage.setItem('siteKeys', JSON.stringify(allSiteKeys));
   console.log(JSON.stringify(allSiteKeys));
   console.log("wrote siteKeys to localStorage");
   
@@ -321,12 +321,12 @@ function deleteItemFromLocalStorage(item){
 
 function initSiteKeys(){
 	if (localStorage.getItem("siteKeys") !== null) {
-		allSiteKeys = JSON.parse(atob(localStorage["siteKeys"]));
-	
+		allSiteKeys = JSON.parse(localStorage["siteKeys"]);
+	//
 		console.log(allSiteKeys);
 		for (var j = 0; j < allSiteKeys.length;j++)
 		{
-			addSiteKey(allSiteKeys[j],true);
+			addSiteKey(decodeURIComponent(atob(allSiteKeys[j])),true);
 			console.log(allSiteKeys[j]);
 		}
 	}
