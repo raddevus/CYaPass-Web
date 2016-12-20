@@ -395,7 +395,6 @@ function Segment(begin, end, pointValue){
 	this.Begin = begin;
 	this.End = end;
 	this.PointValue = pointValue;
-	
 }
 
 function UserPath(){
@@ -417,11 +416,25 @@ function UserPath(){
                     return;
                 }
 			console.log("postValue + this.previousPostValue : " + (postValue + this.previousPostValue));
-			this.allSegments.push(new Segment(this.allPoints[this.allPoints.length-1], this.currentPoint, postValue + this.previousPostValue));
+			if (this.isSegmentUnique(postValue + this.previousPostValue)){
+				// segment has never been added to add it.
+				this.allSegments.push(new Segment(this.allPoints[this.allPoints.length-1], this.currentPoint, postValue + this.previousPostValue));
+			}
 		}
 		this.allPoints.push(this.currentPoint);
 		console.log("allPoints.length : " + this.allPoints.length);
 		this.previousPostValue = postValue;
+	}
+	
+	this.isSegmentUnique = function (pointValue){
+		// Insures that the same segment is not added to segment array and not calculated for points
+		//returns false if the segment is already in the array, else true (segment is unique)
+		for (var z = 0; z < this.allSegments.length;z++){
+			if (this.allSegments[z].PointValue == pointValue){
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	this.CalculateGeometricValue = function(){
