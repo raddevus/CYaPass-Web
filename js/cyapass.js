@@ -7,6 +7,8 @@ window.addEventListener("load", initApp);
 // *******************************
 // ****** begin CYaPass code *****
 // *******************************
+var pwd = "";
+var allSiteKeys = [];
 var centerPoint = 50;
 var postWidth = 6;
 var numOfCells = 6;
@@ -116,18 +118,16 @@ function selectNewPoint(event){
 	}
 	console.log("hitTestIdx : " + hitTestIdx);
 	currentPoint = allPosts[hitTestIdx]; // this sets it to the exact values of the post center
-	us.append(currentPoint, Math.trunc(hitTestIdx + (hitTestIdx * Math.trunc(hitTestIdx / 6) * 10)));
+	us.append(currentPoint, Math.trunc(hitTestIdx + (hitTestIdx * Math.trunc(hitTestIdx / numOfCells) * 10)));
 	us.CalculateGeometricValue();
 	console.log(currentPoint.x + " : " + currentPoint.y);
 }
 
 function drawHighlight(){
-	
 	// there are no points so return without attempting highlight
 	if (us.allPoints.length < 1){return;}
 	
 	drawCircle(new Point({x:us.allPoints[0].x, y:us.allPoints[0].y}), "rgba(0, 0, 0, 0)", "orange", 10, 2);
-
 }
 
 function drawUserShape(){
@@ -135,8 +135,6 @@ function drawUserShape(){
 		drawLine(us.allSegments[i].Begin, us.allSegments[i].End, "green", 4, true);
 	}
 }
-
-var pwd = "";
 
 function generatePassword(){
 	selectedItem = $("#SiteListBox").val();
@@ -158,7 +156,6 @@ function generatePassword(){
 		setMaxLength();
 	}
 	
-	
 	$("#passwordText").val(pwd);
 }
 
@@ -179,8 +176,6 @@ function addButtonClick(){
 	$("#siteKeyErrMsg").text("");
 	$("#AddSiteKeyModal").modal('toggle');
 }
-
-var allSiteKeys = [];
 
 function addSiteKey(item, isInit){
 	
@@ -293,9 +288,7 @@ function deleteSiteKey(){
 	$("#passwordText").val("");
 }
 
-// *******************************
-// *******************************
-
+//###############################################################################
 //############################### localStorage methods ##########################
 //###############################################################################
 function removeAllKeysFromLocalStorage()
@@ -303,7 +296,6 @@ function removeAllKeysFromLocalStorage()
 	localStorage.removeItem('siteKeys'); 
 	console.log("success remove!");
 }
-//  $scope.allFeeds = JSON.parse(localStorage["siteKeys"]);
 
 function saveToLocalStorage()
 {
@@ -324,6 +316,8 @@ function deleteItemFromLocalStorage(item){
 		saveToLocalStorage();
 	}
 }
+// #####################################################################
+// #####################################################################
 
 function initSiteKeys(){
 	if (localStorage.getItem("siteKeys") !== null) {
@@ -355,7 +349,6 @@ function initApp(){
 	$('#addUppercaseCheckBox').on('change', generatePassword);
 	$('#addSpecialCharsCheckBox').on('change', generatePassword);
 	$("#specialChars").on('input', generatePassword);
-	//$("#maxLength").on('change', generatePassword);
 	$("#maxLength").on('input', generatePassword);
 	$("#maxLengthCheckBox").on('change', generatePassword);
 	
@@ -367,7 +360,7 @@ function initApp(){
 	drawGridLines();
 	drawPosts();
 	initSiteKeys();
-	//removeAllKeysFromLocalStorage();
+	//removeAllKeysFromLocalStorage(); // -- used for testing
 }
 
 function drawLine(p, p2, color, lineWidth, isUsingOffset){
@@ -396,30 +389,6 @@ function drawBackground() {
 	
 	ctx.fillStyle=  "#F0F0F0";//"lightgrey";
 	ctx.fillRect(0,0,ctx.canvas.height,ctx.canvas.width);
-}
-
-function genRandomNumber(end){
-	return Math.floor(Math.random() * end) +1;
-}
-
-function getRandomColor(){
-	switch (genRandomNumber(5)){
-		case 1 :{
-			return  "red";
-		}
-		case 2 : {
-			return  "darkgreen";
-		}
-		case 3: {
-			return "purple";
-		}
-		case 4: {
-			return "blue";
-		}
-		case 5 :{
-			return "yellow";
-		}
-	}
 }
 
 function Segment(begin, end, pointValue){
