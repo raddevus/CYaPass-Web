@@ -194,7 +194,7 @@ function addSiteKey(item, isInit){
 		$('#SiteListBox').val(item).change();
 		
 		if (!isInit){
-			allSiteKeys.push(btoa(encodeURIComponent(item)));
+			allSiteKeys.push(btoa(encodeURI(item)));
 			saveToLocalStorage(allSiteKeys);
 		}
 	}
@@ -326,7 +326,7 @@ function initSiteKeys(){
 		console.log(allSiteKeys);
 		for (var j = 0; j < allSiteKeys.length;j++)
 		{
-			addSiteKey(decodeURIComponent(atob(allSiteKeys[j])),true);
+			addSiteKey(decodeURI(atob(allSiteKeys[j])),true);
 			console.log(allSiteKeys[j]);
 		}
 	}
