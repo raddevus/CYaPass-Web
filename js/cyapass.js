@@ -177,30 +177,33 @@ function addButtonClick(){
 	$("#AddSiteKeyModal").modal('toggle');
 }
 
-function addSiteKey(item, isInit){
-	
+function addSiteKey(item){
+
 	//1. get currently selected item in the list 
 	//$("#SiteListBox").val("test").change();
+	console.log("addSiteKey 1");
 	$("#siteKeyErrMsg").text("");
-	if (item === undefined || item === null){
-		var item = $("#SiteKeyItem").val();
-		console.log("undefined ITEM");
-	}
-	
+	var item = $("#SiteKeyItem").val();
+	console.log("addSiteKey 2");
+	item = item.toString().trim();
+	console.log("item : " + item);
 	if (item != ""){
-		$('#SiteListBox').append( new Option(item,item) );
+		var localOption = new Option(item.toString(), item, true, true);
+		$('#SiteListBox').append($(localOption) );
 		$('#AddSiteKeyModal').modal('hide');
 		$("#SiteKeyItem").val("");
 		$('#SiteListBox').val(item).change();
-		
-		if (!isInit){
-			allSiteKeys.push(btoa(encodeURI(item)));
-			saveToLocalStorage(allSiteKeys);
-		}
+		allSiteKeys.push(btoa(encodeURI(item)));
+		saveToLocalStorage();
 	}
 	else{
 		$("#siteKeyErrMsg").text("Please type a valid site/key.");
 	}
+}
+
+function loadSiteKeys(item){
+	var localOption = new Option(item.toString(), item, true, true);
+		$('#SiteListBox').append($(localOption) );
 }
 
 function addUppercaseLetter(){
@@ -264,10 +267,11 @@ var selectedItem;
 function deleteButtonClick(){
 	//
 	selectedItem = $("#SiteListBox").val();
-	if (selectedItem != null && selectedItem != ""){
+	if (selectedItem !== null && selectedItem !== ""){
 		$("#siteKeyDelMsg").text("Click [OK] to delete the site/key: ");
 		$("#siteKeyDelValue").text(selectedItem);
 		$("#DeleteSiteKeyModal").modal('toggle');
+		loadSiteKeys();
 	}
 }
 
@@ -309,7 +313,7 @@ function saveToLocalStorage()
 
 function deleteItemFromLocalStorage(item){
 	console.log("Removing : " + item);
-	var idx = allSiteKeys.lastIndexOf(item);
+	var idx = allSiteKeys.lastIndexOf(btoa(encodeURI(item)));
 	console.log("idx : " + idx);
 	if (idx > -1){
 		allSiteKeys.splice(idx,1);
@@ -326,7 +330,7 @@ function initSiteKeys(){
 		console.log(allSiteKeys);
 		for (var j = 0; j < allSiteKeys.length;j++)
 		{
-			addSiteKey(decodeURI(atob(allSiteKeys[j])),true);
+			loadSiteKeys(decodeURI(atob(allSiteKeys[j])));
 			console.log(allSiteKeys[j]);
 		}
 	}
