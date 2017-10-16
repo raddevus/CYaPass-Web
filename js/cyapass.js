@@ -126,15 +126,15 @@ function drawUserShape(){
 }
 
 function generatePassword(){
-	selectedItem = $("#SiteListBox option:selected").text();
-	if (selectedItem == null || selectedItem == ""){
+	var selectedItemText = $("#SiteListBox option:selected").text();
+	if (selectedItemText == null || selectedItemText == ""){
 		return;
 	}
 	if (us.allSegments.length <= 0)
 	{
 		return;
 	}
-	ComputeHashBytes();
+	ComputeHashBytes(selectedItemText);
 	console.log("ComputeHashBytes() : " + pwd);
 	addUppercaseLetter();
 	console.log ("pwd 1: " + pwd);
@@ -153,10 +153,10 @@ function setMaxLength(){
 	pwd = pwd.substr(0, maxLength);
 }
 
-function ComputeHashBytes(){
+function ComputeHashBytes(selectedItemText){
 	console.log("computing hash...");
-	console.log("selectedItem : " + selectedItem);
-	var hashValue = sha256(us.PointValue + selectedItem.toString());
+	console.log("selectedItemText : " + selectedItemText);
+	var hashValue = sha256(us.PointValue + selectedItemText);
 	console.log(hashValue);
 	pwd = hashValue;
 }
