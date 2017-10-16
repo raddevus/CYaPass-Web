@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<script>
+function clearLS()
+{
+	alert(localStorage.clear());
+	alert(localStorage.getItem('siteKeys'));
+	localStorage.removeItem('siteKeys'); 
+	console.log("success remove!");
+	alert("Success!");
+}
+</script>
+<body onload="clearLS()">
+
+</body>
+</htm>
