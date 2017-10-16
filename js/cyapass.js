@@ -8,7 +8,7 @@ window.addEventListener("load", initApp);
 // ****** begin CYaPass code *****
 // *******************************
 var pwd = "";
-var allSiteKeys = [];
+var allSiteKeys = [{}];
 var centerPoint = 50;
 var postWidth = 6;
 var numOfCells = 6;
@@ -77,17 +77,6 @@ function hitTest(p, pointArray, areaSize){
 			return x;
 		}
 	} 
-/*	for (var i = 0; i < allPosts.length;i++){
-		if ((p.x >= (allPosts[i].x + offset) - postWidth) && (p.x <= (allPosts[i].x + offset) + postWidth))
-		{
-			if ((p.y >= (allPosts[i].y + offset) - postWidth) && (p.y <= (allPosts[i].y + offset) + postWidth))
-			{
-				p = allPosts[i];
-				return loopCount;
-			}
-		}
-		loopCount++;
-	} */
 	return -1;
 }
 
@@ -137,7 +126,7 @@ function drawUserShape(){
 }
 
 function generatePassword(){
-	selectedItem = $("#SiteListBox").val();
+	selectedItem = $("#SiteListBox option:selected").text();
 	if (selectedItem == null || selectedItem == ""){
 		return;
 	}
@@ -167,7 +156,7 @@ function setMaxLength(){
 function ComputeHashBytes(){
 	console.log("computing hash...");
 	console.log("selectedItem : " + selectedItem);
-	var hashValue = sha256(us.PointValue+selectedItem);
+	var hashValue = sha256(us.PointValue + selectedItem.toString());
 	console.log(hashValue);
 	pwd = hashValue;
 }
@@ -177,23 +166,24 @@ function addButtonClick(){
 	$("#AddSiteKeyModal").modal('toggle');
 }
 
-function addSiteKey(item){
+function addSiteKey(){
 
 	//1. get currently selected item in the list 
 	//$("#SiteListBox").val("test").change();
 	console.log("addSiteKey 1");
 	$("#siteKeyErrMsg").text("");
-	var item = $("#SiteKeyItem").val();
+	var item = new SiteKey($("#SiteKeyItem").val());
 	console.log("addSiteKey 2");
-	item = item.toString().trim();
+	//item = item.toString().trim();
 	console.log("item : " + item);
-	if (item != ""){
-		var localOption = new Option(item.toString(), item, true, true);
+	console.log("getDecodedKey : " + item);
+	if (item !== null && item !== ""){
+		var localOption = new Option(getDecodedKey(item.Key), item, false, true);
 		$('#SiteListBox').append($(localOption) );
 		$('#AddSiteKeyModal').modal('hide');
 		$("#SiteKeyItem").val("");
-		$('#SiteListBox').val(item).change();
-		allSiteKeys.push(btoa(encodeURI(item)));
+		$('#SiteListBox').val(item.toString()).change();
+		allSiteKeys.push(item);
 		saveToLocalStorage();
 	}
 	else{
@@ -201,8 +191,9 @@ function addSiteKey(item){
 	}
 }
 
-function loadSiteKeys(item){
-	var localOption = new Option(item.toString(), item, true, true);
+function loadSiteKeyList(item){
+	console.log("loadSiteKeyList item : " + item.Key);
+	var localOption = new Option(decodeURI(atob(item.Key)), item, true, true);
 		$('#SiteListBox').append($(localOption) );
 }
 
@@ -266,12 +257,13 @@ function handleEnterKey(e){
 var selectedItem;
 function deleteButtonClick(){
 	//
-	selectedItem = $("#SiteListBox").val();
+	selectedItem = $("#SiteListBox option:selected").text();
+	console.log(selectedItem);
 	if (selectedItem !== null && selectedItem !== ""){
 		$("#siteKeyDelMsg").text("Click [OK] to delete the site/key: ");
 		$("#siteKeyDelValue").text(selectedItem);
 		$("#DeleteSiteKeyModal").modal('toggle');
-		loadSiteKeys();
+		//loadSiteKeyList();
 	}
 }
 
@@ -285,9 +277,11 @@ function clearButtonClick(){
 }
 
 function deleteSiteKey(){
+	console.log("selectedItem : " );
+	console.log(selectedItem);
 	var removeItem = "#SiteListBox option[value='" + selectedItem + "']";
 	$(removeItem).remove();
-	deleteItemFromLocalStorage(selectedItem);
+	deleteItemFromLocalStorage(getEncodedKey(selectedItem));
 	$("#DeleteSiteKeyModal").modal('hide');
 	$("#passwordText").val("");
 }
@@ -311,32 +305,64 @@ function saveToLocalStorage()
   
 }
 
-function deleteItemFromLocalStorage(item){
-	console.log("Removing : " + item);
-	var idx = allSiteKeys.lastIndexOf(btoa(encodeURI(item)));
-	console.log("idx : " + idx);
-	if (idx > -1){
-		allSiteKeys.splice(idx,1);
-		saveToLocalStorage();
+function deleteItemFromLocalStorage(encodedKey){
+	console.log("Removing : " + encodedKey);
+	for (var i =0; i < allSiteKeys.length;i++){
+		if (encodedKey == allSiteKeys[i].Key){
+			allSiteKeys.splice(i,1);
+			console.log("i : " + i);
+			saveToLocalStorage();
+			initSiteKeys();
+		}
 	}
 }
 // #####################################################################
 // #####################################################################
 
 function initSiteKeys(){
+	$("#SiteListBox").empty();
 	if (localStorage.getItem("siteKeys") !== null) {
 		allSiteKeys = JSON.parse(localStorage["siteKeys"]);
+			
+		if (localStorage.getItem("isConverted") === null){
+			var e = {};
+			e.shiftKey = true;
+			convertSiteKeys(e);
+			localStorage.setItem("isConverted", true);
+		}
 	//
-		console.log(allSiteKeys);
+		
 		for (var j = 0; j < allSiteKeys.length;j++)
 		{
-			loadSiteKeys(decodeURI(atob(allSiteKeys[j])));
-			console.log(allSiteKeys[j]);
+			console.log(allSiteKeys[j].Key);
+			loadSiteKeyList(allSiteKeys[j]);
+			console.log(allSiteKeys[j].Key);
+		}
+	}
+}
+
+function convertSiteKeys(e){
+	if (e.shiftKey){
+		if (localStorage.getItem("siteKeys") !== null) {
+			var tempString = localStorage["siteKeys"];
+			alert(tempString);
+			allSiteKeys = JSON.parse(localStorage["siteKeys"]);
+			alert(allSiteKeys);
+			var allSiteKeyObjects = [{}];
+			allSiteKeyObjects.splice(0,1);
+			for (var j=0; j < allSiteKeys.length;j++){
+				var s = new SiteKey(allSiteKeys[j]);
+				allSiteKeyObjects.push(s);
+			}
+			
+			console.log(allSiteKeyObjects);
+			allSiteKeys = allSiteKeyObjects;
 		}
 	}
 }
 
 function initApp(){
+	allSiteKeys.splice(0,1);
 	theCanvas = document.getElementById("mainGrid");
 	ctx = theCanvas.getContext("2d");
 	
@@ -394,6 +420,30 @@ function drawBackground() {
 	ctx.fillStyle=  "#F0F0F0";//"lightgrey";
 	ctx.fillRect(0,0,ctx.canvas.height,ctx.canvas.width);
 }
+
+function SiteKey (initKey){
+	if (typeof(initKey) === "object"){
+		console.log("In if...");
+		this.MaxLength =  initKey.MaxLength || 0;
+		this.HasSpecialChars = initKey.HasSpecialChars || false;
+		this.HasUpperCase = initKey.HasUpperCase || false;
+		this.Key = btoa(encodeURI(initKey.Key));
+		
+	}
+	else{
+		console.log("In else...");
+		this.MaxLength =  0;
+		this.HasSpecialChars = false;
+		this.HasUpperCase = false;
+		this.Key = btoa(encodeURI(initKey));
+	}
+}
+function getEncodedKey(keyValue){
+	return btoa(encodeURI(keyValue));
+}
+function getDecodedKey(keyValue){
+		return decodeURI(atob(keyValue));
+	}
 
 function Segment(begin, end, pointValue){
 	this.Begin = begin;
