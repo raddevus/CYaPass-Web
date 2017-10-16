@@ -345,18 +345,15 @@ function convertSiteKeys(e){
 	if (e.shiftKey){
 		if (localStorage.getItem("siteKeys") !== null) {
 			var tempString = localStorage["siteKeys"];
-			alert(tempString);
 			allSiteKeys = JSON.parse(localStorage["siteKeys"]);
-			alert(allSiteKeys);
 			var allSiteKeyObjects = [{}];
 			allSiteKeyObjects.splice(0,1);
 			for (var j=0; j < allSiteKeys.length;j++){
-				var s = new SiteKey(allSiteKeys[j]);
+				var s = new SiteKey(getDecodedKey(allSiteKeys[j]));
 				allSiteKeyObjects.push(s);
 			}
-			
-			console.log(allSiteKeyObjects);
 			allSiteKeys = allSiteKeyObjects;
+			saveToLocalStorage();
 		}
 	}
 }
