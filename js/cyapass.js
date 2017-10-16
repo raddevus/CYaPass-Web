@@ -1,4 +1,5 @@
 // cyapass.js
+"use strict";
 
 var ctx = null;
 var theCanvas = null;

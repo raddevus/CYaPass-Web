@@ -74,7 +74,21 @@
       </div>
       <div class="modal-body">
         <label for="SiteKeyItem">Site/Key</label> <span id="siteKeyErrMsg"></span>
-		<input class="form-control" id="SiteKeyItem" autofocus placeholder="Site/Key">
+		<input class="form-control" type="text" id="SiteKeyItem" autofocus placeholder="Site/Key">
+			<div class="form-group row">
+			<div class="checkbox">
+				<span class="col-sm-3">
+				<label><input id="addUppercaseCheckbox" type="checkbox" value="">add uppercase</label>
+				</span>
+				<span class="col-sm-4">
+				<label><input id="addSpecialCharsCheckbox" type="checkbox" value="">add special char(s)</label>
+				</span>
+				<span class="col-sm-3">
+				<label><input id="setMaxLengthCheckbox" type="checkbox" value="">set max length</label>
+				<input class="form-control input-sm " value="32" type="text" id="maxLengthTextBox" placeholder="max length">
+				</span>
+			</div>
+			</div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default btn-submit" data-dismiss="modal">Cancel</button>
