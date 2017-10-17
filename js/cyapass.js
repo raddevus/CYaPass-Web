@@ -167,6 +167,30 @@ function addButtonClick(){
 	$("#AddSiteKeyModal").modal('toggle');
 }
 
+function siteListBoxChangeHandler(){
+	console.log("change handler...");
+	var itemKey = $("#SiteListBox option:selected").text();
+	console.log(itemKey);
+	var currentSiteKey = null;
+	for (var i = 0; i < allSiteKeys.length;i++){
+		if (getDecodedKey(allSiteKeys[i].Key) == itemKey){
+			currentSiteKey = allSiteKeys[i];
+			continue;
+		}
+	}
+	if (currentSiteKey !== null){
+		$("#addUppercaseCheckBox").prop("checked", currentSiteKey.HasUpperCase);
+		$("#addSpecialCharsCheckBox").prop("checked", currentSiteKey.HasSpecialChars);
+		$("#maxLengthCheckBox").prop("checked", currentSiteKey.MaxLength > 0);
+		console.log(currentSiteKey.MaxLength);
+		if (currentSiteKey.MaxLength > 0){
+			$("#maxLength").val(currentSiteKey.MaxLength);
+		}
+		
+	}
+	generatePassword();
+}
+
 function addSiteKey(){
 
 	//1. get currently selected item in the list 
@@ -174,10 +198,16 @@ function addSiteKey(){
 	console.log("addSiteKey 1");
 	$("#siteKeyErrMsg").text("");
 	var item = new SiteKey($("#SiteKeyItem").val());
+	item.HasSpecialChars = $("#addSpecialCharsCheckboxDlg").prop("checked");
+	item.HasUpperCase = $("#addUppercaseCheckboxDlg").prop("checked");
+	if ($("#setMaxLengthCheckboxDlg").prop("checked")){
+		item.MaxLength = $("#maxLengthDlg").val();
+	}
 	console.log("addSiteKey 2");
 	//item = item.toString().trim();
-	console.log("item : " + item);
-	console.log("getDecodedKey : " + item);
+	console.log("item : "); 
+	console.log( item);
+	console.log("getDecodedKey : " + getDecodedKey(item.Key));
 	if (item !== null && item !== ""){
 		var localOption = new Option(getDecodedKey(item.Key), item, false, true);
 		$('#SiteListBox').append($(localOption) );
@@ -201,7 +231,7 @@ function loadSiteKeyList(item){
 function addUppercaseLetter(){
 	var target = pwd;
 
-	if (target == null || target == ""){ return;}
+	if (target === null || target === ""){ return;}
 	if ($("#addUppercaseCheckBox").attr('checked') || $("#addUppercaseCheckBox").prop('checked')){
 		console.log("checked");
 		
@@ -211,7 +241,7 @@ function addUppercaseLetter(){
 			if (isNaN(target[i])){
 				console.log(target[i]);
 				foundChar = target[i];
-				target[i] = target[i].toUpperCase();
+				target[i].toUpperCase();// = target[i].toUpperCase();
 				console.log(target[i].toUpperCase());
 				i = target.length;
 			}
@@ -372,7 +402,7 @@ function initApp(){
 	$('#AddSiteKeyModal').on('shown.bs.modal', function () {
 		$("#SiteKeyItem").focus();
 	});
-	$('#SiteListBox').on('change', generatePassword);
+	$('#SiteListBox').on('change', siteListBoxChangeHandler);
 
 	$('#addUppercaseCheckBox').on('change', generatePassword);
 	$('#addSpecialCharsCheckBox').on('change', generatePassword);
