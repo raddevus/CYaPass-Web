@@ -226,6 +226,7 @@ function addSiteKey(){
 	$("#setMaxLengthCheckboxDlg").prop("checked", false);
 	$("#maxLengthDlg").val("32");
 	 $("#SiteListBox option:last").prop("selected",true);
+	 siteListBoxChangeHandler();
 }
 
 function loadSiteKeyList(item){
@@ -321,6 +322,7 @@ function deleteSiteKey(){
 	deleteItemFromLocalStorage(getEncodedKey(selectedItem));
 	$("#DeleteSiteKeyModal").modal('hide');
 	$("#passwordText").val("");
+	siteListBoxChangeHandler();
 }
 
 //###############################################################################
@@ -424,6 +426,7 @@ function initApp(){
 	drawGridLines();
 	drawPosts();
 	initSiteKeys();
+	siteListBoxChangeHandler();
 	//removeAllKeysFromLocalStorage(); // -- used for testing
 }
 
