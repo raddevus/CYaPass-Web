@@ -220,6 +220,12 @@ function addSiteKey(){
 	else{
 		$("#siteKeyErrMsg").text("Please type a valid site/key.");
 	}
+	
+	$("#addSpecialCharsCheckboxDlg").prop("checked", false);
+	$("#addUppercaseCheckboxDlg").prop("checked", false);
+	$("#setMaxLengthCheckboxDlg").prop("checked", false);
+	$("#maxLengthDlg").val("32");
+	 $("#SiteListBox option:last").prop("selected",true);
 }
 
 function loadSiteKeyList(item){
