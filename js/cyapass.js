@@ -19,7 +19,6 @@ var postSize = 6;
 var allPosts = [];
 var postOffset = Math.trunc(postSize / 2)
 var us = new UserPath();
-var isEditingSiteKey = false;
 
 function Point (p){
 	this.x = p.x || -1;
@@ -164,35 +163,30 @@ function ComputeHashBytes(selectedItemText){
 }
 
 function editButtonClick(){
-	// try...finally insures the isEditingSiteKey always gets set back to false.
-	console.log("setting isEditingSiteKey...");
-	isEditingSiteKey = true;
-	console.log("isEditingSiteKey : " + isEditingSiteKey);
+	
 	$("#siteKeyErrMsg").text("");
 	var editItem = $("#SiteListBox option:selected").text();
 	$("#SiteKeyItem").val(editItem);
-
+	
 	console.log("editItem : " + editItem);
-	$("#AddSiteKeyModal").data.isEditingSiteKey = isEditingSiteKey;
+	var currentSiteKey = getExistingSiteKey(editItem);
+	$("#AddSiteKeyModal").data.currentSiteKey = currentSiteKey;
+	setAddDialogControlValues(currentSiteKey);
 	$("#AddSiteKeyModal").modal('toggle');
 }
 
 function addButtonClick(){
 	$("#siteKeyErrMsg").text("");
+	initAddDialgControlValues();
 	$("#AddSiteKeyModal").modal('toggle');
 }
 
 function siteListBoxChangeHandler(){
 	console.log("change handler...");
 	var itemKey = $("#SiteListBox option:selected").text();
-	console.log(itemKey);
-	var currentSiteKey = null;
-	for (var i = 0; i < allSiteKeys.length;i++){
-		if (getDecodedKey(allSiteKeys[i].Key) == itemKey){
-			currentSiteKey = allSiteKeys[i];
-			continue;
-		}
-	}
+	console.log("itemKey : " + itemKey);
+	var currentSiteKey = getExistingSiteKey(itemKey);
+
 	if (currentSiteKey !== null){
 		$("#addUppercaseCheckBox").prop("checked", currentSiteKey.HasUpperCase);
 		$("#addSpecialCharsCheckBox").prop("checked", currentSiteKey.HasSpecialChars);
@@ -206,15 +200,74 @@ function siteListBoxChangeHandler(){
 	generatePassword();
 }
 
+function getExistingSiteKey(clearTextSiteKey){
+	// pass in a clearText (unencoded) SiteKey
+	// and get an exisiting siteKey object or null back
+	for (var i = 0; i < allSiteKeys.length; i++){
+		if (getDecodedKey(allSiteKeys[i].Key) === clearTextSiteKey){
+			console.log("found one : " + clearTextSiteKey);
+			return allSiteKeys[i];
+		}
+	}
+	return null;
+}
+
+function replaceSiteKeyInList(siteKey){
+	for (var i = 0; i < allSiteKeys.length; i++){
+		if (allSiteKeys[i].Key === siteKey.Key){
+			allSiteKeys[i] = siteKey;
+		}
+	}
+	
+}
+
+function setAddDialogControlValues(siteKey){
+	$("#addSpecialCharsCheckboxDlg").prop("checked", siteKey.HasSpecialChars);
+	$("#addUppercaseCheckboxDlg").prop("checked", siteKey.HasUpperCase);
+	
+	if (siteKey.MaxLength > 0){
+		$("#maxLengthDlg").val(siteKey.MaxLength);
+		$("#setMaxLengthCheckboxDlg").prop("checked", true);
+	}
+	else{
+		$("#maxLengthDlg").val(32);
+		$("#setMaxLengthCheckboxDlg").prop("checked", false);
+	}
+}
+
+function initAddDialgControlValues(){
+	$("#AddSiteKeyModal").data.currentSiteKey = null;
+	$("#SiteKeyItem").val("");
+	$("#addSpecialCharsCheckboxDlg").prop("checked", false);
+	$("#addUppercaseCheckboxDlg").prop("checked", false);
+	$("#setMaxLengthCheckboxDlg").prop("checked", false);
+	$("#maxLengthDlg").val("32");
+}
+
 function addSiteKey(){
-	console.log("isEditingSiteKey 2 : " + $("#AddSiteKeyModal").data.isEditingSiteKey);
 	// using same function for adding new item and editing previously created item
-	if ($("#AddSiteKeyModal").data.isEditingSiteKey){
+	if ($("#AddSiteKeyModal").data.currentSiteKey !== null){
+		console.log($("#AddSiteKeyModal").data.isEditing);
 		console.log("I'm doing the work.");
-		$("#AddSiteKeyModal").data.isEditingSiteKey = false;
-		$("#SiteKeyItem").text($("#AddSiteKeyModal").data.editItem);
+		var localSiteKey = $("#AddSiteKeyModal").data.currentSiteKey;
+		localSiteKey.HasSpecialChars = $("#addSpecialCharsCheckboxDlg").prop("checked");
+		localSiteKey.HasUpperCase = $("#addUppercaseCheckboxDlg").prop("checked");
+		if ($("#setMaxLengthCheckboxDlg").prop("checked")){
+			localSiteKey.MaxLength = $("#maxLengthDlg").val();
+		}
+		else{
+			localSiteKey.MaxLength = 0;
+		}
+		replaceSiteKeyInList(localSiteKey);
+		saveToLocalStorage();
+		$("#AddSiteKeyModal").data.currentSiteKey = null;
 		
 		$("#AddSiteKeyModal").modal('hide');
+		
+		initAddDialgControlValues();
+		$("#AddSiteKeyModal").data.currentSiteKey = null;
+		siteListBoxChangeHandler();
+		
 		return false;
 	}
 
@@ -245,11 +298,8 @@ function addSiteKey(){
 	else{
 		$("#siteKeyErrMsg").text("Please type a valid site/key.");
 	}
-	
-	$("#addSpecialCharsCheckboxDlg").prop("checked", false);
-	$("#addUppercaseCheckboxDlg").prop("checked", false);
-	$("#setMaxLengthCheckboxDlg").prop("checked", false);
-	$("#maxLengthDlg").val("32");
+	initAddDialgControlValues();
+	$("#AddSiteKeyModal").data.currentSiteKey = null;
 	 $("#SiteListBox option:last").prop("selected",true);
 	 siteListBoxChangeHandler();
 }
@@ -483,7 +533,7 @@ function drawBackground() {
 	ctx.fillRect(0,0,ctx.canvas.height,ctx.canvas.width);
 }
 
-function SiteKey (initKey){
+function SiteKey(initKey){
 	if (typeof(initKey) === "object"){
 		console.log("In if...");
 		this.MaxLength =  initKey.MaxLength || 0;
@@ -500,6 +550,7 @@ function SiteKey (initKey){
 		this.Key = btoa(encodeURI(initKey));
 	}
 }
+
 function getEncodedKey(keyValue){
 	return btoa(encodeURI(keyValue));
 }
