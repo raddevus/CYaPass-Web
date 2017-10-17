@@ -19,6 +19,7 @@ var postSize = 6;
 var allPosts = [];
 var postOffset = Math.trunc(postSize / 2)
 var us = new UserPath();
+var isEditingSiteKey = false;
 
 function Point (p){
 	this.x = p.x || -1;
@@ -162,6 +163,20 @@ function ComputeHashBytes(selectedItemText){
 	pwd = hashValue;
 }
 
+function editButtonClick(){
+	// try...finally insures the isEditingSiteKey always gets set back to false.
+	console.log("setting isEditingSiteKey...");
+	isEditingSiteKey = true;
+	console.log("isEditingSiteKey : " + isEditingSiteKey);
+	$("#siteKeyErrMsg").text("");
+	var editItem = $("#SiteListBox option:selected").text();
+	$("#SiteKeyItem").val(editItem);
+
+	console.log("editItem : " + editItem);
+	$("#AddSiteKeyModal").data.isEditingSiteKey = isEditingSiteKey;
+	$("#AddSiteKeyModal").modal('toggle');
+}
+
 function addButtonClick(){
 	$("#siteKeyErrMsg").text("");
 	$("#AddSiteKeyModal").modal('toggle');
@@ -192,6 +207,16 @@ function siteListBoxChangeHandler(){
 }
 
 function addSiteKey(){
+	console.log("isEditingSiteKey 2 : " + $("#AddSiteKeyModal").data.isEditingSiteKey);
+	// using same function for adding new item and editing previously created item
+	if ($("#AddSiteKeyModal").data.isEditingSiteKey){
+		console.log("I'm doing the work.");
+		$("#AddSiteKeyModal").data.isEditingSiteKey = false;
+		$("#SiteKeyItem").text($("#AddSiteKeyModal").data.editItem);
+		
+		$("#AddSiteKeyModal").modal('hide');
+		return false;
+	}
 
 	//1. get currently selected item in the list 
 	//$("#SiteListBox").val("test").change();
@@ -208,7 +233,7 @@ function addSiteKey(){
 	console.log("item : "); 
 	console.log( item);
 	console.log("getDecodedKey : " + getDecodedKey(item.Key));
-	if (item !== null && item !== ""){
+	if (item.Key !== null && item.Key !== ""){
 		var localOption = new Option(getDecodedKey(item.Key), item, false, true);
 		$('#SiteListBox').append($(localOption) );
 		$('#AddSiteKeyModal').modal('hide');
