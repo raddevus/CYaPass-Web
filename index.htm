@@ -10,12 +10,9 @@
 </head>
 <body>
 
-<div id="SiteListButtons">
-
-</div>
 <div class="container-fluid noselect">
 	<div class="row" style="background-color:WhiteSmoke;">
-		<div class="col-sm-4" >
+		<div class="col-sm-6" >
 			<h3 class="cyaHeader">1. Select (or Add) Site/Key</h3>
 			<select id="SiteListBox" size="10"></select>
 			<button type="button" class="btn btn-default" onclick="addButtonClick()">Add</button>
@@ -36,14 +33,14 @@
 				</div>
 			</form>
 		</div>
-		<div class="col-sm-5" >
+		<div class="col-sm-6" >
 		<h3 class="cyaHeader">2. Draw a pattern</h3>
 		<canvas id="mainGrid">You're browser does not support HTML5.</canvas>
 			<div>
 				<button type="button" class="btn btn-default" onclick="clearButtonClick()">Clear</button>
 			</div>
 			<div class="form-group">
-				<input class="form-control" rows="3" id="passwordText" placeholder="password">
+				<textarea class="form-control" rows="3" id="passwordText" placeholder="password"></textarea>
 			</div>
 		</div>
 	</div>
