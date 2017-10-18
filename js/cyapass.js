@@ -269,8 +269,6 @@ function addSiteKey(){
 		return false;
 	}
 
-	//1. get currently selected item in the list 
-	//$("#SiteListBox").val("test").change();
 	console.log("addSiteKey 1");
 	$("#siteKeyErrMsg").text("");
 	var clearTextItemKey = $("#SiteKeyItem").val();
@@ -280,19 +278,16 @@ function addSiteKey(){
 	if ($("#setMaxLengthCheckboxDlg").prop("checked")){
 		item.MaxLength = $("#maxLengthDlg").val();
 	}
-	console.log("addSiteKey 2");
-	//item = item.toString().trim();
-	console.log("item : "); 
-	console.log( item);
-	console.log("getDecodedKey : " + getDecodedKey(item.Key));
+
 	if (item.Key !== null && item.Key !== ""){
 		var localOption = new Option(clearTextItemKey, clearTextItemKey, false, true);
 		$('#SiteListBox').append($(localOption) );
-		$('#AddSiteKeyModal').modal('hide');
 		$("#SiteKeyItem").val("");
 		$('#SiteListBox').val(clearTextItemKey).change();
 		allSiteKeys.push(item);
 		saveToLocalStorage();
+		
+		$('#AddSiteKeyModal').modal('hide');
 	}
 	else{
 		$("#siteKeyErrMsg").text("Please type a valid site/key.");
