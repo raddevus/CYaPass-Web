@@ -434,7 +434,7 @@ function deleteItemFromLocalStorage(encodedKey){
 
 function initSiteKeys(){
 	$("#SiteListBox").empty();
-	if (localStorage.getItem("siteKeys") !== null) {
+	if (localStorage.getItem("siteKeys") !== null && localStorage.getItem("siteKeys") !== "null") {
 		allSiteKeys = JSON.parse(localStorage["siteKeys"]);
 			
 		if (localStorage.getItem("isConverted") === null){
