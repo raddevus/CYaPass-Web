@@ -165,7 +165,7 @@ function ComputeHashBytes(selectedItemText){
 function editButtonClick(){
 	
 	$("#siteKeyErrMsg").text("");
-	var editItem = $("#SiteListBox option:selected").text();
+	var editItem = $("#SiteListBox option:selected").val();
 	$("#SiteKeyItem").val(editItem);
 	
 	console.log("editItem : " + editItem);
@@ -183,7 +183,7 @@ function addButtonClick(){
 
 function siteListBoxChangeHandler(){
 	console.log("change handler...");
-	var itemKey = $("#SiteListBox option:selected").text();
+	var itemKey = $("#SiteListBox option:selected").val();
 	console.log("itemKey : " + itemKey);
 	var currentSiteKey = getExistingSiteKey(itemKey);
 
