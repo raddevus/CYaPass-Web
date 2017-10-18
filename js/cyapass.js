@@ -273,7 +273,8 @@ function addSiteKey(){
 	//$("#SiteListBox").val("test").change();
 	console.log("addSiteKey 1");
 	$("#siteKeyErrMsg").text("");
-	var item = new SiteKey($("#SiteKeyItem").val());
+	var clearTextItemKey = $("#SiteKeyItem").val();
+	var item = new SiteKey(clearTextItemKey);
 	item.HasSpecialChars = $("#addSpecialCharsCheckboxDlg").prop("checked");
 	item.HasUpperCase = $("#addUppercaseCheckboxDlg").prop("checked");
 	if ($("#setMaxLengthCheckboxDlg").prop("checked")){
@@ -285,11 +286,11 @@ function addSiteKey(){
 	console.log( item);
 	console.log("getDecodedKey : " + getDecodedKey(item.Key));
 	if (item.Key !== null && item.Key !== ""){
-		var localOption = new Option(getDecodedKey(item.Key), item, false, true);
+		var localOption = new Option(clearTextItemKey, clearTextItemKey, false, true);
 		$('#SiteListBox').append($(localOption) );
 		$('#AddSiteKeyModal').modal('hide');
 		$("#SiteKeyItem").val("");
-		$('#SiteListBox').val(item.toString()).change();
+		$('#SiteListBox').val(clearTextItemKey).change();
 		allSiteKeys.push(item);
 		saveToLocalStorage();
 	}
@@ -304,7 +305,7 @@ function addSiteKey(){
 
 function loadSiteKeyList(item){
 	console.log("loadSiteKeyList item : " + item.Key);
-	var localOption = new Option(decodeURI(atob(item.Key)), item, true, true);
+	var localOption = new Option(decodeURI(atob(item.Key)), decodeURI(atob(item.Key)), true, true);
 		$('#SiteListBox').append($(localOption) );
 }
 
