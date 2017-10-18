@@ -247,7 +247,6 @@ function initAddDialgControlValues(){
 function addSiteKey(){
 	// using same function for adding new item and editing previously created item
 	if ($("#AddSiteKeyModal").data.currentSiteKey !== null){
-		console.log($("#AddSiteKeyModal").data.isEditing);
 		console.log("I'm doing the work.");
 		var localSiteKey = $("#AddSiteKeyModal").data.currentSiteKey;
 		localSiteKey.HasSpecialChars = $("#addSpecialCharsCheckboxDlg").prop("checked");
@@ -260,7 +259,6 @@ function addSiteKey(){
 		}
 		replaceSiteKeyInList(localSiteKey);
 		saveToLocalStorage();
-		$("#AddSiteKeyModal").data.currentSiteKey = null;
 		
 		$("#AddSiteKeyModal").modal('hide');
 		
