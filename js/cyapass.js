@@ -305,7 +305,7 @@ function addSiteKey(){
 
 function loadSiteKeyList(item){
 	console.log("loadSiteKeyList item : " + item.Key);
-	var localOption = new Option(decodeURI(atob(item.Key)), decodeURI(atob(item.Key)), true, true);
+	var localOption = new Option(decodeURI(atob(item.Key)), decodeURI(atob(item.Key)), false, false);
 		$('#SiteListBox').append($(localOption) );
 }
 
@@ -500,8 +500,8 @@ function initApp(){
 	drawGridLines();
 	drawPosts();
 	initSiteKeys();
+	$('#SiteListBox option:last').prop('selected', true);
 	siteListBoxChangeHandler();
-	//removeAllKeysFromLocalStorage(); // -- used for testing
 }
 
 function drawLine(p, p2, color, lineWidth, isUsingOffset){
