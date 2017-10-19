@@ -319,7 +319,7 @@ function addSiteKey(){
 
 function loadSiteKeyList(item){
 	console.log("loadSiteKeyList item : " + item.Key);
-	var localOption = new Option(decodeURI(atob(item.Key)), decodeURI(atob(item.Key)), false, false);
+	var localOption = new Option(getDecodedKey(item.Key), getDecodedKey(item.Key), false, false);
 		$('#SiteListBox').append($(localOption) );
 }
 
