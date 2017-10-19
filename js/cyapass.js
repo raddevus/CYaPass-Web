@@ -9,7 +9,7 @@ window.addEventListener("load", initApp);
 // ****** begin CYaPass code *****
 // *******************************
 var pwd = "";
-var allSiteKeys = [{}];
+var allSiteKeys = [];
 var centerPoint = 50;
 var postWidth = 6;
 var numOfCells = 6;
@@ -436,12 +436,8 @@ function initSiteKeys(){
 		allSiteKeys = JSON.parse(localStorage["siteKeys"]);
 			
 		if (localStorage.getItem("isConverted") === null){
-			var e = {};
-			e.shiftKey = true;
-			convertSiteKeys(e);
-			localStorage.setItem("isConverted", true);
+			convertSiteKeys();
 		}
-	//
 		
 		for (var j = 0; j < allSiteKeys.length;j++)
 		{
@@ -450,27 +446,26 @@ function initSiteKeys(){
 			console.log(allSiteKeys[j].Key);
 		}
 	}
+	localStorage.setItem("isConverted", true);
 }
 
-function convertSiteKeys(e){
-	if (e.shiftKey){
-		if (localStorage.getItem("siteKeys") !== null) {
-			var tempString = localStorage["siteKeys"];
-			allSiteKeys = JSON.parse(localStorage["siteKeys"]);
-			var allSiteKeyObjects = [{}];
-			allSiteKeyObjects.splice(0,1);
-			for (var j=0; j < allSiteKeys.length;j++){
-				var s = new SiteKey(getDecodedKey(allSiteKeys[j]));
-				allSiteKeyObjects.push(s);
-			}
-			allSiteKeys = allSiteKeyObjects;
-			saveToLocalStorage();
+function convertSiteKeys(){
+	if (localStorage.getItem("siteKeys") !== null) {
+		var tempString = localStorage["siteKeys"];
+		allSiteKeys = JSON.parse(localStorage["siteKeys"]);
+		var allSiteKeyObjects = [];
+		
+		for (var j=0; j < allSiteKeys.length;j++){
+			var s = new SiteKey(getDecodedKey(allSiteKeys[j]));
+			allSiteKeyObjects.push(s);
 		}
+		allSiteKeys = allSiteKeyObjects;
+		saveToLocalStorage();
 	}
 }
 
 function initApp(){
-	allSiteKeys.splice(0,1);
+	
 	theCanvas = document.getElementById("mainGrid");
 	ctx = theCanvas.getContext("2d");
 	
