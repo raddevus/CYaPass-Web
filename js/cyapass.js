@@ -219,7 +219,7 @@ function setAddDialogControlValues(siteKey){
 	}
 }
 
-function initAddDialgControlValues(){
+function initAddDialogControlValues(){
 	$("#AddSiteKeyModal").data.currentSiteKey = null;
 	$("#SiteKeyItem").val("");
 	$("#addSpecialCharsCheckboxDlg").prop("checked", false);
@@ -237,7 +237,6 @@ function editButtonClick(){
 	
 	console.log("encodedKey : " + getEncodedKey(editItem));
 	localSiteKey = getExistingSiteKey(getEncodedKey(editItem));
-	//$("#AddSiteKeyModal").data.currentSiteKey = currentSiteKey;
 	setAddDialogControlValues(localSiteKey);
 	isAddKey = false;
 	$("#AddSiteKeyModal").modal('toggle');
@@ -245,7 +244,7 @@ function editButtonClick(){
 
 function addButtonClick(){
 	$("#siteKeyErrMsg").text("");
-	initAddDialgControlValues();
+	initAddDialogControlValues();
 	isAddKey = true;
 	$("#AddSiteKeyModal").modal('toggle');
 }
@@ -278,7 +277,7 @@ function editSiteKey(){
 		
 		$("#AddSiteKeyModal").modal('hide');
 		
-		initAddDialgControlValues();
+		initAddDialogControlValues();
 		$("#AddSiteKeyModal").data.currentSiteKey = null;
 		siteListBoxChangeHandler();
 		
@@ -312,7 +311,7 @@ function addSiteKey(){
 	else{
 		$("#siteKeyErrMsg").text("Please type a valid site/key.");
 	}
-	initAddDialgControlValues();
+	initAddDialogControlValues();
 	$("#AddSiteKeyModal").data.currentSiteKey = null;
 	 $("#SiteListBox option:last").prop("selected",true);
 	 siteListBoxChangeHandler();
