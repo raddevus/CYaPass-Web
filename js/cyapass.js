@@ -547,7 +547,16 @@ function getEncodedKey(keyValue){
 	return btoa(encodeURI(keyValue));
 }
 function getDecodedKey(keyValue){
-		return decodeURI(atob(keyValue));
+		try {
+			return decodeURI(atob(keyValue));
+		}
+		catch (e){
+			// handling this exception helps protect against the
+			// isConverted value being lost when there are still good
+			// sitekey values in localStorage.
+			localStorage.setItem('isConverted',true);
+			throw (e);
+		}
 	}
 
 function Segment(begin, end, pointValue){
