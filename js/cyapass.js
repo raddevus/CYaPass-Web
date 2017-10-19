@@ -169,7 +169,8 @@ function editButtonClick(){
 	$("#SiteKeyItem").val(editItem);
 	
 	console.log("editItem : " + editItem);
-	var currentSiteKey = getExistingSiteKey(editItem);
+	console.log(getEncodedKey(editItem));
+	var currentSiteKey = getExistingSiteKey(getEncodedKey(editItem));
 	$("#AddSiteKeyModal").data.currentSiteKey = currentSiteKey;
 	setAddDialogControlValues(currentSiteKey);
 	$("#AddSiteKeyModal").modal('toggle');
@@ -185,7 +186,7 @@ function siteListBoxChangeHandler(){
 	console.log("change handler...");
 	var itemKey = $("#SiteListBox option:selected").val();
 	console.log("itemKey : " + itemKey);
-	var currentSiteKey = getExistingSiteKey(itemKey);
+	var currentSiteKey = getExistingSiteKey(getEncodedKey(itemKey));
 
 	if (currentSiteKey !== null){
 		$("#addUppercaseCheckBox").prop("checked", currentSiteKey.HasUpperCase);
@@ -200,12 +201,14 @@ function siteListBoxChangeHandler(){
 	generatePassword();
 }
 
-function getExistingSiteKey(clearTextSiteKey){
-	// pass in a clearText (unencoded) SiteKey
+function getExistingSiteKey(encodedKey){
+	// pass in a encoded SiteKey
 	// and get an exisiting siteKey object or null back
+	// I switched this to compare encoded key so there
+	// is less work in this method (and specifically the for loop)
 	for (var i = 0; i < allSiteKeys.length; i++){
-		if (getDecodedKey(allSiteKeys[i].Key) === clearTextSiteKey){
-			console.log("found one : " + clearTextSiteKey);
+		if (allSiteKeys[i].Key === encodedKey){
+			console.log("found one : " + encodedKey);
 			return allSiteKeys[i];
 		}
 	}
