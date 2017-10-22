@@ -463,7 +463,7 @@ function initSiteKeys(){
 			console.log(allSiteKeys[j].Key);
 		}
 	}
-	localStorage.setItem("isConverted", true);
+	localStorage.setItem("isConverted", 'true');
 }
 
 function convertSiteKeys(){
@@ -571,7 +571,7 @@ function getDecodedKey(keyValue){
 			// handling this exception helps protect against the
 			// isConverted value being lost when there are still good
 			// sitekey values in localStorage.
-			localStorage.setItem('isConverted',true);
+			localStorage.setItem('isConverted','true');
 			throw (e);
 		}
 	}
