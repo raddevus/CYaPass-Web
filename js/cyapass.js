@@ -93,7 +93,11 @@ function getMousePos(evt) {
 }
 
 function mouseDownHandler(event){
-
+	if ($("#hidePatternCheckBox").attr('checked') || $("#hidePatternCheckBox").prop('checked')){
+			// get out of here because the user has the pattern hidden
+			// user must unhide pattern to add to it.
+			return;
+	}
 	selectNewPoint(event)
 	drawHighlight();
 	drawUserShape();
@@ -122,8 +126,16 @@ function drawHighlight(){
 }
 
 function drawUserShape(){
-	for (var i = 0; i < us.allSegments.length;i++){
-		drawLine(us.allSegments[i].Begin, us.allSegments[i].End, "green", 4, true);
+	if (!$("#hidePatternCheckBox").attr('checked') && !$("#hidePatternCheckBox").prop('checked')){
+		for (var i = 0; i < us.allSegments.length;i++){
+			drawLine(us.allSegments[i].Begin, us.allSegments[i].End, "green", 4, true);
+		}
+	}
+	else{
+		drawBackground();
+		generateAllPosts();
+		drawGridLines();
+		drawPosts();
 	}
 }
 
@@ -401,6 +413,8 @@ function clearButtonClick(){
 	drawGridLines();
 	drawPosts();
 	$("#passwordText").val("");
+	$("#hidePatternCheckBox").attr('checked',false);
+	$("#hidePatternCheckBox").prop('checked',false)
 }
 
 function deleteSiteKey(){
@@ -501,6 +515,7 @@ function initApp(){
 	$("#specialChars").on('input', generatePassword);
 	$("#maxLength").on('input', generatePassword);
 	$("#maxLengthCheckBox").on('change', generatePassword);
+	$("#hidePatternCheckBox").on('change', drawUserShape);
 	
 	$("#passwordText").removeClass("noselect");
 
