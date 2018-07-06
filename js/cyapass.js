@@ -160,6 +160,8 @@ function generatePassword(){
 	}
 	
 	$("#passwordText").val(pwd);
+	$("#passwordText").select();
+	document.execCommand("copy");
 }
 
 function setMaxLength(){
