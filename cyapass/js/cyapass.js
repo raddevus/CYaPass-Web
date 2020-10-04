@@ -300,6 +300,15 @@ function editSiteKey(){
 	
 }
 
+function sortSiteKeys(){
+	// choose target dropdown
+	var select = $('select');
+	select.html(select.find('option').sort(function(x, y) {
+	  // to change to descending order switch "<" for ">"
+	  return $(x).text() > $(y).text() ? 1 : -1;
+	}));
+}
+
 function addSiteKey(){
 
 	console.log("addSiteKey 1");
@@ -319,7 +328,7 @@ function addSiteKey(){
 		$('#SiteListBox').val(clearTextItemKey).change();
 		allSiteKeys.push(item);
 		saveToLocalStorage();
-		
+		sortSiteKeys();
 		$('#AddSiteKeyModal').modal('hide');
 	}
 	else{
@@ -405,6 +414,7 @@ function deleteButtonClick(){
 		$("#siteKeyDelValue").text(selectedItem);
 		$("#DeleteSiteKeyModal").modal('toggle');
 		//loadSiteKeyList();
+		sortSiteKeys();
 	}
 }
 
@@ -478,6 +488,7 @@ function initSiteKeys(){
 			loadSiteKeyList(allSiteKeys[j]);
 			console.log(allSiteKeys[j].Key);
 		}
+		sortSiteKeys();
 	}
 	localStorage.setItem("isConverted", 'true');
 }
