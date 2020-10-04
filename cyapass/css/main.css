@@ -15,3 +15,4 @@
             user-select: none; /* Non-prefixed version, currently
                                   not supported by any browser */
 }
+img {max-width:100%;}
