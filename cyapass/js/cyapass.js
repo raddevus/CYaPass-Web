@@ -440,6 +440,18 @@ function deleteSiteKey(){
 	siteListBoxChangeHandler();
 }
 
+function importSiteKeys(){
+	var importUrl = document.querySelector("#importUrl").value;
+	fetch(importUrl)
+		.then(response => response.json())
+		  .then(data => localStorage.setItem('siteKeys',JSON.stringify(data)))
+		  .then(() => document.querySelector("#importUrl").value = "")
+		  .then(() => location.reload())
+		  .then(() => console.log("Successfully completed."));
+	
+	return false;
+}
+
 //###############################################################################
 //############################### localStorage methods ##########################
 //###############################################################################

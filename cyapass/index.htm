@@ -22,9 +22,17 @@
 		<div class="col-sm-6" >
 			<h3 class="cyaHeader">1. Select (or Add) Site/Key</h3>
 			<select id="SiteListBox" size="10"></select>
-			<button type="button" class="btn btn-default" onclick="addButtonClick()">Add</button>
-			<button type="button" class="btn btn-default" onclick="editButtonClick()">Edit</button>
-			<button type="button" class="btn btn-default" onclick="deleteButtonClick()">Delete</button>
+			
+			<button type="button" class="btn btn-primary" onclick="addButtonClick()">Add</button>
+			<button type="button" class="btn btn-primary" onclick="editButtonClick()">Edit</button>
+			<button type="button" class="btn btn-primary" onclick="deleteButtonClick()">Delete</button>
+			
+			<span class="input-group">
+				<input id="importUrl" type="text" class="form-control" placeholder="Import URL">
+				<span class="input-group-btn">
+					<button class="btn btn-primary" type="button" onclick="importSiteKeys()">Import</button>
+				</span>
+			</span>
 			
 			<form class="form-inline">
 				<div class="input-group">
@@ -46,7 +54,7 @@
 		<canvas id="mainGrid">You're browser does not support HTML5.</canvas>
 			<div class="input-group">
 				<label class="input-group-addon"><input id="hidePatternCheckBox" type="checkbox" value=""><strong> Hide Pattern</strong></label>
-				<button type="button" class="btn btn-default" onclick="clearButtonClick()">Clear</button>
+				<button type="button" class="btn btn-primary" onclick="clearButtonClick()">Clear</button>
 			</div>
 			<div class="form-group">
 				<textarea class="form-control" rows="3" id="passwordText" placeholder="password"></textarea>
