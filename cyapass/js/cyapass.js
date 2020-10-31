@@ -331,7 +331,6 @@ function addSiteKey(){
 		$('#SiteListBox').val(clearTextItemKey).change();
 		allSiteKeys.push(item);
 		saveToLocalStorage();
-		sortSiteKeys();
 		$('#AddSiteKeyModal').modal('hide');
 	}
 	else{
@@ -340,6 +339,7 @@ function addSiteKey(){
 	initAddDialogControlValues();
 	$("#AddSiteKeyModal").data.currentSiteKey = null;
 	 $("#SiteListBox option:last").prop("selected",true);
+	 sortSiteKeys();
 	 siteListBoxChangeHandler();
 }
 
