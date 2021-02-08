@@ -140,7 +140,8 @@ function drawUserShape(){
 }
 
 function generatePassword(){
-	var selectedItemText = $("#SiteListBox option:selected").text();
+	let selectedItemText = $("#SiteListBox option:selected").text();
+	alert(selectedItemText);
 	if (selectedItemText === null || selectedItemText === ""){
 		return;
 	}
