@@ -160,12 +160,14 @@ function generatePassword(){
 		setMaxLength();
 	}
 	
-	$("#passwordText").val(pwd);
-	$("#passwordText").select();
+	//$("#passwordText").val(pwd);
+	document.querySelector("#passwordText").value = pwd;
+	alert(pwd);
+	//$("#passwordText").select();
 	// call to setSelectionRange() is required to insure mobile devices (and Apple)
 	// will select and copy the text.  Fixes issue where it wasn't working on iphone, etc.
 	alert("before selectionRange...");
-	document.querySelector("#passwordText").setSelectionRange(0, 99999);
+	document.querySelector("#passwordText").setSelectionRange(0, pwd.length);
 	alert("before copy to clipboard!");
 	document.execCommand("copy");
 }
