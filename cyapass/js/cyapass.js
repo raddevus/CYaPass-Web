@@ -164,7 +164,9 @@ function generatePassword(){
 	$("#passwordText").select();
 	// call to setSelectionRange() is required to insure mobile devices (and Apple)
 	// will select and copy the text.  Fixes issue where it wasn't working on iphone, etc.
+	alert("before selectionRange...");
 	document.querySelector("#passwordText").setSelectionRange(0, 99999);
+	alert("before copy to clipboard!");
 	document.execCommand("copy");
 }
 
@@ -183,9 +185,9 @@ function ComputeHashBytes(selectedItemText){
 
 function siteListBoxChangeHandler(){
 	console.log("change handler...");
-	var itemKey = $("#SiteListBox option:selected").val();
+	let itemKey = $("#SiteListBox option:selected").val();
 	console.log("itemKey : " + itemKey);
-	var currentSiteKey = getExistingSiteKey(getEncodedKey(itemKey));
+	let currentSiteKey = getExistingSiteKey(getEncodedKey(itemKey));
 
 	if (currentSiteKey !== null){
 		$("#addUppercaseCheckBox").prop("checked", currentSiteKey.HasUpperCase);
@@ -197,6 +199,7 @@ function siteListBoxChangeHandler(){
 		}
 		
 	}
+	alert(currentSiteKey);
 	generatePassword();
 }
 
