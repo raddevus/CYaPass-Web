@@ -558,7 +558,7 @@ function initApp(){
 	$("#passwordText").removeClass("noselect");
 
 	theCanvas.addEventListener("mousedown", mouseDownHandler);
-	document.querySelector("#passwordText").addEventListener("select",selectHandler);
+	document.querySelector("#SiteListBox").addEventListener("select",selectHandler);
 	drawBackground();
 	generateAllPosts();
 	drawGridLines();
