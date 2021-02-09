@@ -168,8 +168,9 @@ function generatePassword(){
 	// will select and copy the text.  Fixes issue where it wasn't working on iphone, etc.
 	document.querySelector("#passwordText").focus();
 	document.querySelector("#passwordText").setSelectionRange(0, pwd.length);
-	
 	document.execCommand("copy");
+	document.querySelector("#passwordText").setSelectionRange(0,0);
+	document.querySelector("#mainGrid").focus();
 }
 
 function setMaxLength(){
