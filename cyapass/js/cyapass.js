@@ -185,6 +185,11 @@ function ComputeHashBytes(selectedItemText){
 	pwd = hashValue;
 }
 
+function selectHandler(){
+	document.title="in selectHandler()...";
+	siteListBoxChangeHandler();
+}
+
 function siteListBoxChangeHandler(){
 	console.log("change handler...");
 	let itemKey = $("#SiteListBox option:selected").val();
@@ -553,6 +558,7 @@ function initApp(){
 	$("#passwordText").removeClass("noselect");
 
 	theCanvas.addEventListener("mousedown", mouseDownHandler);
+	document.querySelector("#passwordText").addEventListener("select",selectHandler);
 	drawBackground();
 	generateAllPosts();
 	drawGridLines();
