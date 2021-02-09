@@ -141,7 +141,7 @@ function drawUserShape(){
 
 function generatePassword(){
 	let selectedItemText = $("#SiteListBox option:selected").text();
-	alert(selectedItemText);
+	
 	if (selectedItemText === null || selectedItemText === ""){
 		return;
 	}
@@ -162,13 +162,13 @@ function generatePassword(){
 	
 	//$("#passwordText").val(pwd);
 	document.querySelector("#passwordText").value = pwd;
-	alert(pwd);
+	
 	//$("#passwordText").select();
 	// call to setSelectionRange() is required to insure mobile devices (and Apple)
 	// will select and copy the text.  Fixes issue where it wasn't working on iphone, etc.
-	alert("before selectionRange...");
+	
 	document.querySelector("#passwordText").setSelectionRange(0, pwd.length);
-	alert("before copy to clipboard!");
+	
 	document.execCommand("copy");
 }
 
@@ -201,7 +201,6 @@ function siteListBoxChangeHandler(){
 		}
 		
 	}
-	alert(currentSiteKey);
 	generatePassword();
 }
 
