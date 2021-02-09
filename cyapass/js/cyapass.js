@@ -166,11 +166,12 @@ function generatePassword(){
 	//$("#passwordText").select();
 	// call to setSelectionRange() is required to insure mobile devices (and Apple)
 	// will select and copy the text.  Fixes issue where it wasn't working on iphone, etc.
+	document.querySelector("#passwordText").style.visibility = "visible";
 	document.querySelector("#passwordText").focus();
+	
 	document.querySelector("#passwordText").setSelectionRange(0, pwd.length);
 	document.execCommand("copy");
-	document.querySelector("#passwordText").setSelectionRange(0,0);
-	document.querySelector("#mainGrid").focus();
+	document.querySelector("#passwordText").style.visibility = "hidden";
 }
 
 function setMaxLength(){
@@ -189,8 +190,8 @@ function ComputeHashBytes(selectedItemText){
 function selectHandler(){
 	document.title="in selectHandler()...";
 	setTimeout(()=>{
-		siteListBoxChangeHandler();
 		document.title="timeout fired!";
+		siteListBoxChangeHandler();
 	}, 3000);
 	
 }
@@ -563,7 +564,7 @@ function initApp(){
 	$("#passwordText").removeClass("noselect");
 
 	theCanvas.addEventListener("mousedown", mouseDownHandler);
-	document.querySelector("#SiteListBox").addEventListener("focusout",selectHandler);
+	//document.querySelector("#SiteListBox").addEventListener("change",siteListBoxChangeHandler);
 	drawBackground();
 	generateAllPosts();
 	drawGridLines();
