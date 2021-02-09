@@ -187,7 +187,11 @@ function ComputeHashBytes(selectedItemText){
 
 function selectHandler(){
 	document.title="in selectHandler()...";
-	siteListBoxChangeHandler();
+	setTimeout(()=>{
+		siteListBoxChangeHandler();
+		document.title="timeout fired!";
+	}, 3000);
+	
 }
 
 function siteListBoxChangeHandler(){
