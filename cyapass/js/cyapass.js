@@ -180,6 +180,11 @@ function ComputeHashBytes(selectedItemText){
 	pwd = hashValue;
 }
 
+function addToClipboardButtonClick(){
+	siteListBoxChangeHandler();
+	document.querySelector("#clipboardButton").focus();
+}
+
 function siteListBoxChangeHandler(){
 	console.log("change handler...");
 	var itemKey = $("#SiteListBox option:selected").val();

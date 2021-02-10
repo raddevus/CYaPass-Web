@@ -16,3 +16,5 @@
                                   not supported by any browser */
 }
 img {max-width:100%;}
+*{/* this is used for iOS weird auto-zoom issue*/
+  font-size:16px;}
