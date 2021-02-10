@@ -167,11 +167,14 @@ function generatePassword(){
 	// call to setSelectionRange() is required to insure mobile devices (and Apple)
 	// will select and copy the text.  Fixes issue where it wasn't working on iphone, etc.
 	document.querySelector("#passwordText").style.visibility = "visible";
+	document.querySelector("#passwordText").style.display = "block";
 	document.querySelector("#passwordText").focus();
 	
 	document.querySelector("#passwordText").setSelectionRange(0, pwd.length);
 	document.execCommand("copy");
 	document.querySelector("#passwordText").style.visibility = "hidden";
+	document.querySelector("#passwordText").style.display = "none";
+	document.querySelector("#passwordText").setSelectionRange(0, 0);
 }
 
 function setMaxLength(){
@@ -194,6 +197,11 @@ function selectHandler(){
 		siteListBoxChangeHandler();
 	}, 3000);
 	
+}
+
+function addToClipboardButtonClick(){
+	siteListBoxChangeHandler();
+	document.querySelector("#clipboardButton").focus();
 }
 
 function siteListBoxChangeHandler(){
@@ -564,7 +572,7 @@ function initApp(){
 	$("#passwordText").removeClass("noselect");
 
 	theCanvas.addEventListener("mousedown", mouseDownHandler);
-	//document.querySelector("#SiteListBox").addEventListener("change",siteListBoxChangeHandler);
+	// document.querySelector("#SiteListBox").addEventListener("change",selectHandler);
 	drawBackground();
 	generateAllPosts();
 	drawGridLines();

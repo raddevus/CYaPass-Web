@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>C'YaPass : Never type a password again</title>
 <link rel="stylesheet" href="css/main.css" />
 <link rel="icon" href="cyapass.png" sizes="150x150" type="image/png">
@@ -26,6 +26,7 @@
 			<button type="button" class="btn btn-primary" onclick="addButtonClick()">Add</button>
 			<button type="button" class="btn btn-primary" onclick="editButtonClick()">Edit</button>
 			<button type="button" class="btn btn-primary" onclick="deleteButtonClick()">Delete</button>
+			<button id="clipboardButton" type="button" class="btn btn-primary" onclick="addToClipboardButtonClick()">+Clipboard</button>
 			
 			<span class="input-group">
 				<input id="importUrl" type="text" class="form-control" placeholder="Import URL">
