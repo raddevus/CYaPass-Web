@@ -21,6 +21,8 @@ var postOffset = Math.trunc(postSize / 2)
 var us = new UserPath();
 var isAddKey = true;
 
+let isImport = false;
+
 function Point (p){
 	this.x = p.x || -1;
 	this.y = p.y || -1;
@@ -348,6 +350,134 @@ function addSiteKey(){
 	 siteListBoxChangeHandler();
 }
 
+function okExportHandler(){
+	
+	if (document.querySelector("#SecretId").value == ""){
+		document.querySelector("#secretIdErrMsg").innerHTML = "A SecretId is required to export your site/keys.";
+		document.querySelector("#SecretId").focus();
+		return;
+	}
+	
+	let secretId = document.querySelector("#SecretId").value;
+	document.querySelector("#secretIdErrMsg").innerHTML = "";
+	document.querySelector("#SecretId").value = "";
+	
+	$("#ExportModal").modal('toggle');
+	if (isImport == undefined || isImport == false){
+		exportSiteKeys(encryptSiteKeys(),secretId);
+	}
+	else{
+		importSiteKeys(secretId);
+	}
+}
+
+function decryptSiteKeys(){
+	decryptDataBuffer()
+}
+
+function importSiteKeys(secretId){
+	
+	// let url = localBaseUrl + "Cya/GetData?key=" + secretId;
+	// let url = nlBaseUrl + "Cya/GetData?key=" + secretId;
+	let url = nlBaseUrl + "Cya/GetData?key=" + secretId;
+	fetch(url, {
+		method: 'GET',
+		})
+		.then(response => response.json())
+		.then(data => {
+			if (data.success == true){
+				let siteKeys = JSON.parse(decryptDataBuffer(data.cyabucket.data));
+				// alert(siteKeys);
+				let addKeyCount = saveOnlyNewSiteKeys(siteKeys);
+				importAlert(addKeyCount);
+				//localStorage.setItem("siteKeys",siteKeys);
+			}
+			else{
+				alert(data.message);
+			}
+		});
+}
+
+function saveOnlyNewSiteKeys(newSiteKeys){
+	origSiteKeys = JSON.parse(localStorage.getItem("siteKeys"));
+	var allNewKeys = newSiteKeys.filter(x => 
+		origSiteKeys.every(x2 => x2.Key !== x.Key));
+
+	allSiteKeys = origSiteKeys.concat(allNewKeys);
+	saveToLocalStorage();
+	initSiteKeys();
+	// following line insures the sitekeys are refreshed
+	// so the new keys are now sorted in alpha order
+	sortSiteKeys();
+	
+	// return count of new keys added
+	return allNewKeys.length;
+}
+	
+function encryptSiteKeys(){
+	let siteKeysAsString = localStorage.getItem("siteKeys");
+	//console.log(`siteKeysAsString : ${siteKeysAsString}`);
+	let encrypted = encryptDataBuffer(siteKeysAsString);
+	return encrypted;
+}
+
+function exportSiteKeys(encryptedData, secretId){
+
+	const formDataX = new FormData();
+	formDataX.append("key",secretId);
+	formDataX.append("data",encryptedData);
+
+	// let url = "http://localhost:5243/Cya/SaveData";
+	// let url = nlBaseUrl + "Cya/SaveData";
+	let url = nlBaseUrl + "Cya/SaveData";
+	fetch(url, {
+		method: 'POST',
+		redirect: 'follow',
+		body: formDataX,
+		})
+		.then(response => response.json())
+		.then(data => console.log(data));
+
+}
+
+function importAlert(keyCount) {
+	document.querySelector("#importCount").innerHTML = keyCount;
+	document.querySelector('.alert').style.display='block';
+	setInterval(() => {
+		document.querySelector('.alert').style.display='none';
+	}, 10000);
+}
+
+function exportButtonHandler(){
+	isImport = false;
+	let msg = `To insure your Site/Key Export is secure you must draw a password &amp; select a siteKey.<br/>
+ 	This will generate a password which will be used to encrypt your data (uses AES256).`;
+	let dialogHeader = "Export Encrypted Site/Keys";
+	document.querySelector("#ExportLabel").innerHTML = dialogHeader;
+	if (pwd == ""){
+		
+		document.querySelector("#exportMainMsg").innerHTML = msg;
+		$("#ExportMsgModal").modal('toggle');
+		return;
+	}
+	$("#ExportModal").modal('toggle');
+}
+
+function importButtonHandler(){
+	isImport = true;
+	let msg = `To import your Site/Key list you must draw a password &amp; select a siteKey.
+	This will generate the same password which was used to encrypt your data, when you exported it.`;
+	let dialogHeader = "Import Encrypted Site/Keys";
+	document.querySelector("#ExportLabel").innerHTML = dialogHeader;
+	if (pwd == ""){
+		
+		document.querySelector("#exportMainMsg").innerHTML = msg;
+		$("#ExportMsgModal").modal("toggle");
+		return;
+	}
+	$("#ExportModal").modal('toggle');
+}
+
 function loadSiteKeyList(item){
 	console.log("loadSiteKeyList item : " + item.Key);
 	var localOption = new Option(getDecodedKey(item.Key), getDecodedKey(item.Key), false, false);
@@ -538,6 +668,7 @@ function initApp(){
 	$("#OKSiteKeyButton").click(addOrEditSiteKey);
 	$("#OKDeleteButton").click(deleteSiteKey);
 	$("#AddSiteKeyModal").keypress(handleEnterKey);
+	document.querySelector("#OKExportButton").addEventListener("click",okExportHandler)
 	$('#AddSiteKeyModal').on('shown.bs.modal', function () {
 		$("#SiteKeyItem").focus();
 	});
