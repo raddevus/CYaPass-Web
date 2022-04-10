@@ -22,6 +22,9 @@ var us = new UserPath();
 var isAddKey = true;
 
 let isImport = false;
+let doBaseUrl = "http://104.131.78.41/";  // DigitalOcean
+let nlBaseUrl = "https://NewLibre.com/LibreStore/";  // NewLibre
+let localBaseUrl = "http://localhost:5243/"			 // LocalHost
 
 function Point (p){
 	this.x = p.x || -1;
