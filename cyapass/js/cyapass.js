@@ -25,6 +25,8 @@ let isImport = false;
 let doBaseUrl = "http://104.131.78.41/";  // DigitalOcean
 let nlBaseUrl = "https://NewLibre.com/LibreStore/";  // NewLibre
 let localBaseUrl = "http://localhost:5243/"			 // LocalHost
+let transferUrl = null;
+let pwdBuffer = null;
 
 function Point (p){
 	this.x = p.x || -1;
@@ -181,6 +183,7 @@ function ComputeHashBytes(selectedItemText){
 	console.log("computing hash...");
 	console.log("selectedItemText : " + selectedItemText);
 	var hashValue = sha256(us.PointValue + selectedItemText);
+	pwdBuffer = hashValue;
 	console.log(hashValue);
 	pwd = hashValue;
 }
@@ -374,10 +377,6 @@ function okExportHandler(){
 	}
 }
 
-function decryptSiteKeys(){
-	decryptDataBuffer()
-}
-
 function importSiteKeys(secretId){
 	
 	// let url = localBaseUrl + "Cya/GetData?key=" + secretId;
@@ -389,7 +388,7 @@ function importSiteKeys(secretId){
 		.then(response => response.json())
 		.then(data => {
 			if (data.success == true){
-				let siteKeys = JSON.parse(decryptDataBuffer(data.cyabucket.data));
+				let siteKeys = JSON.parse(decryptFromText(data.cyabucket.data));
 				// alert(siteKeys);
 				let addKeyCount = saveOnlyNewSiteKeys(siteKeys);
 				importAlert(addKeyCount);
@@ -402,7 +401,7 @@ function importSiteKeys(secretId){
 }
 
 function saveOnlyNewSiteKeys(newSiteKeys){
-	origSiteKeys = JSON.parse(localStorage.getItem("siteKeys"));
+	let origSiteKeys = JSON.parse(localStorage.getItem("siteKeys"));
 	var allNewKeys = newSiteKeys.filter(x => 
 		origSiteKeys.every(x2 => x2.Key !== x.Key));
 
@@ -420,7 +419,7 @@ function saveOnlyNewSiteKeys(newSiteKeys){
 function encryptSiteKeys(){
 	let siteKeysAsString = localStorage.getItem("siteKeys");
 	//console.log(`siteKeysAsString : ${siteKeysAsString}`);
-	let encrypted = encryptDataBuffer(siteKeysAsString);
+	let encrypted = encryptFromText(siteKeysAsString);
 	return encrypted;
 }
 
@@ -449,6 +448,32 @@ function importAlert(keyCount) {
 	setInterval(() => {
 		document.querySelector('.alert').style.display='none';
 	}, 10000);
+}
+
+function okTransferHandler(){
+	let url = document.querySelector("#transferUrlText").value;
+	setTransferUrl(url);
+	$("#SetTransferUrlModal").modal('toggle');
+}
+
+function transferUrlButtonHandler(){
+	document.querySelector("#transferUrlText").value = transferUrl;
+	$("#SetTransferUrlModal").modal('toggle');
+}
+
+function setDefaultUrl(){
+	document.querySelector("#transferUrlText").value = nlBaseUrl;
+}
+
+function setTransferUrl(url){
+	transferUrl = localStorage.getItem("transferUrl");
+	if (transferUrl == null){
+		transferUrl = nlBaseUrl; // defaults to NewLibre.com LibreStore
+	}
+	if (url != null){
+		transferUrl = url;
+	}
+	localStorage.setItem("transferUrl",transferUrl);
 }
 
 function exportButtonHandler(){
@@ -581,7 +606,7 @@ function deleteSiteKey(){
 	siteListBoxChangeHandler();
 }
 
-function importSiteKeys(){
+/*function importSiteKeys(){
 	var importUrl = document.querySelector("#importUrl").value;
 	fetch(importUrl)
 		.then(response => response.json())
@@ -591,7 +616,7 @@ function importSiteKeys(){
 		  .then(() => console.log("Successfully completed."));
 	
 	return false;
-}
+}*/
 
 //###############################################################################
 //############################### localStorage methods ##########################
@@ -671,7 +696,8 @@ function initApp(){
 	$("#OKSiteKeyButton").click(addOrEditSiteKey);
 	$("#OKDeleteButton").click(deleteSiteKey);
 	$("#AddSiteKeyModal").keypress(handleEnterKey);
-	document.querySelector("#OKExportButton").addEventListener("click",okExportHandler)
+	document.querySelector("#OKExportButton").addEventListener("click",okExportHandler);
+	document.querySelector("#OKTransferButton").addEventListener("click",okTransferHandler);
 	$('#AddSiteKeyModal').on('shown.bs.modal', function () {
 		$("#SiteKeyItem").focus();
 	});
@@ -692,6 +718,7 @@ function initApp(){
 	drawGridLines();
 	drawPosts();
 	initSiteKeys();
+	setTransferUrl(null);
 	$('#SiteListBox option:last').prop('selected', true);
 	siteListBoxChangeHandler();
 }
