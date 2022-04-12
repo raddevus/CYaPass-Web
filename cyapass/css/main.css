@@ -5,6 +5,9 @@
 #SiteListButtons{margin-left:20px;}
 #siteKeyDelValue, #siteKeyErrMsg{color:red;}
 #noshow{visibility:hidden;}
+.hide{display:none;}
+.k-hidden{visibility:hidden;display:none;}
+.k-show{visibility:visible;display:block;}
 .cyaHeader{font-size:large;color:blue; margin-left:10px;}
 .noselect {
   -webkit-touch-callout: none; /* iOS Safari */

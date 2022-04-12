@@ -443,10 +443,13 @@ function exportSiteKeys(encryptedData, secretId){
 }
 
 function importAlert(keyCount) {
+	document.querySelector("#importAlert").classList.add("k-show");
+	document.querySelector("#importAlert").classList.remove("k-hidden");
 	document.querySelector("#importCount").innerHTML = keyCount;
-	document.querySelector('.alert').style.display='block';
+
 	setInterval(() => {
-		document.querySelector('.alert').style.display='none';
+		document.querySelector("#importAlert").classList.add("k-hidden");
+		document.querySelector("#importAlert").classList.remove("k-show");
 	}, 10000);
 }
 
@@ -605,18 +608,6 @@ function deleteSiteKey(){
 	$("#passwordText").val("");
 	siteListBoxChangeHandler();
 }
-
-/*function importSiteKeys(){
-	var importUrl = document.querySelector("#importUrl").value;
-	fetch(importUrl)
-		.then(response => response.json())
-		  .then(data => localStorage.setItem('siteKeys',JSON.stringify(data)))
-		  .then(() => document.querySelector("#importUrl").value = "")
-		  .then(() => location.reload())
-		  .then(() => console.log("Successfully completed."));
-	
-	return false;
-}*/
 
 //###############################################################################
 //############################### localStorage methods ##########################

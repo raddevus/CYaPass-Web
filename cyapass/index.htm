@@ -24,7 +24,7 @@
 		<div class="col-sm-6" >
 			<h3 class="cyaHeader">1. Select (or Add) Site/Key</h3>
 			<select id="SiteListBox" size="10"></select>
-			<div class="alert alert-success fade show hide"  role="alert">
+			<div id="importAlert" class="alert alert-success k-hidden" role="alert">
 				Import succeeded: <strong><span id="importCount"></span></strong> sitekeys imported.
 			   <button class="alert-dismissable close" data-dismiss="alert"
 			   onclick="javascript:document.querySelector('.alert').style.display='none'">
@@ -33,7 +33,7 @@
 				 <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
 			   </svg>
 			 </button>
-			   </div>
+			</div>
 			<button type="button" class="btn btn-primary" onclick="addButtonClick()">Add</button>
 			<button type="button" class="btn btn-primary" onclick="editButtonClick()">Edit</button>
 			<button type="button" class="btn btn-primary" onclick="deleteButtonClick()">Delete</button>
@@ -44,13 +44,6 @@
 					<path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
 				  </svg>
 			</button>
-			<span class="input-group">
-				<input id="importUrl" type="text" class="form-control" placeholder="Import URL">
-				<span class="input-group-btn">
-					<button class="btn btn-primary" type="button" onclick="importSiteKeys()">Import</button>
-				</span>
-			</span>
-			
 			<form class="form-inline">
 				<div class="input-group">
 					<label class="input-group-addon"><input id="addUppercaseCheckBox" type="checkbox" value=""><strong> Add UpperCase</strong></label>
