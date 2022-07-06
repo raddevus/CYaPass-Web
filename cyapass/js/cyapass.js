@@ -381,18 +381,25 @@ function importSiteKeys(secretId){
 	
 	// let url = localBaseUrl + "Cya/GetData?key=" + secretId;
 	// let url = nlBaseUrl + "Cya/GetData?key=" + secretId;
-	let url = nlBaseUrl + "Cya/GetData?key=" + secretId;
+	let url = transferUrl + "Cya/GetData?key=" + secretId;
+	console.log(`url: ${url}`);
 	fetch(url, {
 		method: 'GET',
 		})
 		.then(response => response.json())
 		.then(data => {
 			if (data.success == true){
-				let siteKeys = JSON.parse(decryptFromText(data.cyabucket.data));
-				// alert(siteKeys);
+				let originalHmac = data.cyabucket.hmac;
+				console.log(`originalHmac : ${originalHmac}`);
+				let currentHmac = generateHmac(data.cyabucket.data,data.cyabucket.iv);
+				console.log(currentHmac);
+				if (originalHmac !== currentHmac){
+					alert("Oiginal MAC doesn't match!\nEither the data has been corrupted or you're using an incorrect password.\nCannot import.");
+					return;
+				}
+				let siteKeys = JSON.parse(decryptFromText(data.cyabucket.data,data.cyabucket.iv));
 				let addKeyCount = saveOnlyNewSiteKeys(siteKeys);
 				importAlert(addKeyCount);
-				//localStorage.setItem("siteKeys",siteKeys);
 			}
 			else{
 				alert(data.message);
@@ -428,10 +435,12 @@ function exportSiteKeys(encryptedData, secretId){
 	const formDataX = new FormData();
 	formDataX.append("key",secretId);
 	formDataX.append("data",encryptedData);
+	formDataX.append("hmac", generateHmac(encryptedData,iv));
+	formDataX.append("iv", iv);
 
 	// let url = "http://localhost:5243/Cya/SaveData";
 	// let url = nlBaseUrl + "Cya/SaveData";
-	let url = nlBaseUrl + "Cya/SaveData";
+	let url = transferUrl + "Cya/SaveData";
 	fetch(url, {
 		method: 'POST',
 		redirect: 'follow',
