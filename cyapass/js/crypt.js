@@ -31,7 +31,7 @@ function decrypt(message,iv){
 
 function encryptFromText(clearText){
   let useIV = true;
-  let encryptedText = encrypt(clearText,pwd,useIV);
+  let encryptedText = encrypt(clearText,pwdBuffer,useIV);
   console.log(encryptedText);
   return encryptedText;
 
