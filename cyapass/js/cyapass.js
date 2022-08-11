@@ -27,6 +27,10 @@ let nlBaseUrl = "https://NewLibre.com/LibreStore/";  // NewLibre
 let localBaseUrl = "http://localhost:5243/"			 // LocalHost
 let transferUrl = null;
 let pwdBuffer = null;
+// isInit is used because I need to know when 
+// the app is initializing and cycling through the sitekeys so it doesn't save
+// each one to localStorage("lastSelectedKey");
+let isInit = true;
 
 function Point (p){
 	this.x = p.x || -1;
@@ -207,7 +211,7 @@ function siteListBoxChangeHandler(){
 		if (currentSiteKey.MaxLength > 0){
 			$("#maxLength").val(currentSiteKey.MaxLength);
 		}
-		
+		saveLastSelectedSiteKey(getEncodedKey(itemKey));
 	}
 	generatePassword();
 }
@@ -726,6 +730,27 @@ function initApp(){
 	setTransferUrl(null);
 	$('#SiteListBox option:last').prop('selected', true);
 	siteListBoxChangeHandler();
+	// We set isInit to false so selected keys will be saved for user.
+	isInit = false;
+	setLastSelectedSiteKey()
+}
+
+function setLastSelectedSiteKey(){
+	console.log("in setLastSelected...");
+	let lastSelected = localStorage.getItem("lastSelectedKey");
+	if (lastSelected === null && lastSelected !== ""){
+		// select first item
+		document.querySelector("#SiteListBox").selectedIndex = 0;
+		return;
+	}
+	// otherwise attempt to set the item to the last one the user selected.	
+	document.querySelector("#SiteListBox").value = atob(lastSelected);
+}
+
+function saveLastSelectedSiteKey(encodedSiteKey){
+	if (isInit){return;}
+	console.log("saving last site key...");
+	localStorage.setItem("lastSelectedKey",encodedSiteKey);
 }
 
 function drawLine(p, p2, color, lineWidth, isUsingOffset){
