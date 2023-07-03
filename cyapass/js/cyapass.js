@@ -488,6 +488,7 @@ function setDefaultUrl(){
 
 function setTransferUrl(url){
 	transferUrl = localStorage.getItem("transferUrl");
+	
 	if (transferUrl == null){
 		transferUrl = nlBaseUrl; // defaults to NewLibre.com LibreStore
 	}
@@ -495,6 +496,17 @@ function setTransferUrl(url){
 		transferUrl = url;
 	}
 	localStorage.setItem("transferUrl",transferUrl);
+}
+
+function removeAllSiteKeysButtonHandler(){
+	$("#RemoveAllSiteKeysModal").modal("toggle");
+
+}
+
+function removeAllSiteKeys(){
+	localStorage.removeItem("siteKeys");
+	$("#RemoveAllSiteKeysModal").modal("toggle");
+	initSiteKeys();
 }
 
 function exportButtonHandler(){

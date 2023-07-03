@@ -64,6 +64,7 @@
 				  <button type="button" class="btn btn-sm btn-primary" onclick="exportButtonHandler()">Export SiteKeys</button>
 				  <button type="button" class="btn btn-sm btn-primary" onclick="importButtonHandler()">Import SiteKeys</button>
 				  <button type="button" class="btn btn-sm btn-primary" onclick="transferUrlButtonHandler()">Set Transfer URL</button>
+				  <button type="button" class="btn btn-sm btn-primary" onclick="removeAllSiteKeysButtonHandler()">Remove All SiteKeys</button>
 				 </div>
 			  </form>
 		</div>
@@ -176,7 +177,7 @@
 		</div>
 		<div class="modal-body">
 		  <div class="input-group" >
-			<input id="transferUrlText" type="text" class="form-control" placeholder="Transfer URL" aria-label="transferUrlText" aria-describedby="setDefaultUrlButton">
+			<input id="transferUrlText" type="text" class="form-control" autofocus placeholder="Transfer URL" aria-label="transferUrlText" aria-describedby="setDefaultUrlButton">
 			<span class="input-group-btn">
 			  <button class="btn btn-default" onclick="setDefaultUrl()" type="button" id="setDefaultUrlButton">Set Default</button>
 			</span>
@@ -185,6 +186,30 @@
 		<div class="modal-footer">
 		  <button type="button" class="btn btn-sm btn-outline-primary btn-submit" data-dismiss="modal">Cancel</button>
 		  <button id="OKTransferButton" type="button" class="btn btn-sm btn-primary">OK</button>
+		</div>
+	  </div>
+	</div>
+   </div>
+
+   <div class="modal fade" id="RemoveAllSiteKeysModal" tabindex="2" role="dialog" aria-labelledby="TransferLabel">
+	<div class="modal-dialog" role="document">
+	  <div class="modal-content">
+		<div class="modal-title">
+		  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		  <h4 class="modal-title" id="removeAllSiteKeys">Remove All SiteKeys</h4>
+		</div>
+		<div class="modal-body">
+		  <div class="input-group" >
+			<p>Please confirm that you want to Remove all SiteKeys from this computer by clicking the OK button.</p>
+			<p>Clicking OK will delete all the SiteKeys from your local computer (localStorage).  This option can be used 
+				if you are on a public computer and you'd like to insure your SiteKeys are not shared with anyone.
+			</p>
+			<p>However, if you do not want to remove the SiteKeys, please click the CANCEL button.</p>
+		  </div>
+		</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-sm btn-outline-primary btn-submit" data-dismiss="modal">Cancel</button>
+		  <button id="OkRemoveAllSiteKeysButton" onclick="removeAllSiteKeys()" type="button" class="btn btn-sm btn-primary">OK</button>
 		</div>
 	  </div>
 	</div>
