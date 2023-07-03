@@ -10,13 +10,14 @@
 <link rel="apple-touch-icon" sizes="150x150" href="cyapass.png">
 <link rel="icon" href="cyapass.ico" sizes="32x32 48x48" type="image/vnd.microsoft.icon">
 <link rel="icon" href="mac.icns" sizes="16x16 32x32 48x48 64x64 128x128 512x512">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js"></script>
 <script src="js/app.js"></script>
 <script src="js/crypt.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js"></script>
 <script   src="https://code.jquery.com/jquery-2.2.3.min.js"   integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="   crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -61,10 +62,18 @@
 			</form>
 			<form class="form-inline">
 				<div class="topPad bottomPad">
-				  <button type="button" class="btn btn-sm btn-primary" onclick="exportButtonHandler()">Export SiteKeys</button>
-				  <button type="button" class="btn btn-sm btn-primary" onclick="importButtonHandler()">Import SiteKeys</button>
-				  <button type="button" class="btn btn-sm btn-primary" onclick="transferUrlButtonHandler()">Set Transfer URL</button>
-				  <button type="button" class="btn btn-sm btn-primary" onclick="removeAllSiteKeysButtonHandler()">Remove All SiteKeys</button>
+				  <button type="button" class="btn btn-sm btn-primary" 
+				  	data-toggle="tooltip" data-placement="top" title="Export your encrypted SiteKeys for backup and use on other systems."
+				  	onclick="exportButtonHandler()">Export SiteKeys</button>
+				  <button type="button" class="btn btn-sm btn-primary" 
+				  	data-toggle="tooltip" data-placement="top" title="Import your encrypted SiteKeys for local use."
+				  	onclick="importButtonHandler()">Import SiteKeys</button>
+				  <button type="button" class="btn btn-sm btn-primary" 
+				  	data-toggle="tooltip" data-placement="top" title="Set the URL where you'll store your encrypted SiteKeys (use for OnPrem LibreStore usage)"
+				 	onclick="transferUrlButtonHandler()">Set Transfer URL</button>
+				  <button type="button" class="btn btn-sm btn-primary" 
+				    data-toggle="tooltip" data-placement="top" title="Delete all SiteKeys from the local system. (Useful if you're on a publicly accessible system)"
+				  	onclick="removeAllSiteKeysButtonHandler()">Remove All SiteKeys</button>
 				 </div>
 			  </form>
 		</div>

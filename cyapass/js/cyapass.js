@@ -745,6 +745,11 @@ function initApp(){
 	// We set isInit to false so selected keys will be saved for user.
 	isInit = false;
 	setLastSelectedSiteKey()
+	
+	// iintializes Bootstrap system to display tooltips
+	$(function () {
+		$('[data-toggle="tooltip"]').tooltip()
+	})
 }
 
 function setLastSelectedSiteKey(){
