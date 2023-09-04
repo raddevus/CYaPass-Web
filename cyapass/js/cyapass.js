@@ -274,6 +274,7 @@ function editButtonClick(){
 	setAddDialogControlValues(localSiteKey);
 	isAddKey = false;
 	$("#AddSiteKeyModal").modal('toggle');
+	document.querySelector("#AddSiteKeyLabel").innerHTML = "Edit Existing Site/Key";
 }
 
 function addButtonClick(){
@@ -281,6 +282,7 @@ function addButtonClick(){
 	initAddDialogControlValues();
 	isAddKey = true;
 	$("#AddSiteKeyModal").modal('toggle');
+	document.querySelector("#AddSiteKeyLabel").innerHTML = "Add New Site/Key";
 }
 
 function addOrEditSiteKey(){
