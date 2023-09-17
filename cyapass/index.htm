@@ -46,6 +46,14 @@
 					<path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
 				  </svg>
 			</button>
+			<div class="row topPad">
+				<div class="col-lg-6" >
+				<input type="checkbox" id="multiHashIsOnCheckbox">
+				<label class="noselect" for="multiHashIsOnCheckbox">Use Multi-Hash</label>
+					<input type="number" id="multiHash" name="multiHash" value="0" min="0" max="500" 
+					data-toggle="tooltip" data-placement="top" title="Allows you to provide another level of security by hashing your password multiple times."/>
+				</div>
+			</div>
 			<form class="form-inline">
 				<div class="input-group">
 					<label class="input-group-addon"><input id="addUppercaseCheckBox" type="checkbox" value=""><strong> Add UpperCase</strong></label>
@@ -62,16 +70,16 @@
 			</form>
 			<form class="form-inline">
 				<div class="topPad bottomPad">
-				  <button type="button" class="btn btn-sm btn-primary" 
+				  <button type="button" class="btn btn-sm btn-primary topPad" 
 				  	data-toggle="tooltip" data-placement="top" title="Export your encrypted SiteKeys for backup and use on other systems."
 				  	onclick="exportButtonHandler()">Export SiteKeys</button>
-				  <button type="button" class="btn btn-sm btn-primary" 
+				  <button type="button" class="btn btn-sm btn-primary topPad" 
 				  	data-toggle="tooltip" data-placement="top" title="Import your encrypted SiteKeys for local use."
 				  	onclick="importButtonHandler()">Import SiteKeys</button>
-				  <button type="button" class="btn btn-sm btn-primary" 
+				  <button type="button" class="btn btn-sm btn-primary topPad" 
 				  	data-toggle="tooltip" data-placement="top" title="Set the URL where you'll store your encrypted SiteKeys (use for OnPrem LibreStore usage)"
 				 	onclick="transferUrlButtonHandler()">Set Transfer URL</button>
-				  <button type="button" class="btn btn-sm btn-primary" 
+				  <button type="button" class="btn btn-sm btn-primary topPad" 
 				    data-toggle="tooltip" data-placement="top" title="Delete all SiteKeys from the local system. (Useful if you're on a publicly accessible system)"
 				  	onclick="removeAllSiteKeysButtonHandler()">Remove All SiteKeys</button>
 				 </div>
@@ -91,7 +99,7 @@
 	</div>
 </div>
 
-
+<script src="js/multiHash.js"></script>
 <script src="js/cyapass.js"></script>
 
 <div class="startLocation">

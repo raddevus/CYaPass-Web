@@ -1,6 +1,7 @@
 /*main.css*/
 .startLocation{position:absolute;top:20px;left:650px;}
 /*#SiteListBox{margin-left:20px;width:175px;margin-top:20px;}*/
+#multiHash{ width: 60px; }
 #SiteListBox{width:100%;}
 #SiteListButtons{margin-left:20px;}
 #siteKeyDelValue, #siteKeyErrMsg{color:red;}
