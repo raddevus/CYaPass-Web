@@ -32,7 +32,7 @@ let pwdBuffer = null;
 // each one to localStorage("lastSelectedKey");
 let isInit = true;
 
-let multiHashSettings;
+let multiHashSettings = null;
 
 function Point (p){
 	this.x = p.x || -1;
@@ -202,8 +202,8 @@ function multiHashChangeHandler(){
 
 function initMultiHashValues(){
 	multiHashSettings = getMultiHashFromLocalStorage();
-	if (multiHashSettings == null){
-		mutiHashSettings = new MultiHash(false, 0);
+	if (multiHashSettings == undefined || multiHashSettings == null){
+		multiHashSettings = new MultiHash(false, 0);
 		saveMultiHashToLocalStorage(multiHashSettings);
 	}
 	document.querySelector("#multiHashIsOnCheckbox").checked = multiHashSettings.multiHashIsOn;
@@ -697,8 +697,16 @@ function saveMultiHashToLocalStorage(multiHashObj){
 }
 
 function getMultiHashFromLocalStorage(){
-	let hash = JSON.parse(localStorage.getItem("multiHash"));
-	if (hash == null){
+	let hash = null;
+	try{
+		hash = JSON.parse(localStorage.getItem("multiHash"));
+	
+		if (hash == undefined || hash == null){
+			hash = new MultiHash(false, 0);
+			saveMultiHashToLocalStorage(multiHashSettings);
+		}
+	}
+	catch{
 		hash = new MultiHash(false, 0);
 		saveMultiHashToLocalStorage(multiHashSettings);
 	}
