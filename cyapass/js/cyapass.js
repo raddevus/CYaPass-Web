@@ -622,7 +622,8 @@ function addSpecialChars(){
 		console.log("target : " + target);
 		localPwd += specialChars;
 		console.log("1 localPwd : " + localPwd);
-		localPwd = localPwd + target.substring(2, target.length - charOffset);
+		// we take the entire length of the string - specialChars (for the added char(s))
+		localPwd = localPwd + target.substring(2, target.length - specialChars.length);
 		console.log("2 localPwd : " + localPwd);
 		pwd = localPwd;
 	}
